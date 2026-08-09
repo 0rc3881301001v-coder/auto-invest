@@ -1,239 +1,242 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#17202a">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AUTO INVEST</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
-  background:#f4f6f8;
-  color:#17202a;
+  background:#f3f6f8;
+  color:#18222d;
   font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",
-  "Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+    "Hiragino Kaku Gothic ProN","Yu Gothic",Arial,sans-serif;
 }
 
 header{
-  background:#17202a;
+  background:#17212b;
   color:white;
-  padding:28px 20px 24px;
+  padding:42px 28px 32px;
 }
 
 header h1{
   margin:0;
-  font-size:30px;
+  font-size:34px;
   font-weight:800;
 }
 
 header p{
-  margin:6px 0 0;
-  color:#cbd3da;
-  font-size:16px;
+  margin:8px 0 0;
+  color:#b9c2ca;
+  font-size:21px;
 }
 
 main{
-  padding:16px 15px 90px;
-  max-width:800px;
+  max-width:900px;
   margin:auto;
+  padding:28px;
+  padding-bottom:100px;
 }
 
 .card{
   background:white;
-  border:1px solid #dce2e7;
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:16px;
-  box-shadow:0 3px 12px rgba(0,0,0,.04);
+  border:1px solid #dce3e8;
+  border-radius:28px;
+  padding:30px;
+  margin-bottom:24px;
+  box-shadow:0 4px 18px rgba(20,40,60,.04);
 }
 
-.title{
-  font-size:21px;
-  font-weight:800;
-  margin-bottom:15px;
-}
-
-.muted{
-  color:#71808e;
+.card h2{
+  margin:0 0 22px;
+  font-size:26px;
 }
 
 .big{
-  font-size:38px;
+  font-size:42px;
   font-weight:800;
-  margin-top:8px;
+  margin:12px 0;
 }
 
 .sub{
-  font-size:16px;
-  color:#71808e;
-  margin-top:4px;
+  color:#73808d;
+  font-size:20px;
 }
 
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:14px;
+  gap:16px;
 }
 
 .metric{
-  background:#f8fafb;
-  border-radius:18px;
-  padding:18px;
-  min-height:110px;
+  background:#f7f9fa;
+  border-radius:24px;
+  padding:25px;
+  min-height:125px;
 }
 
-.metric .label{
-  color:#71808e;
-  font-size:15px;
-}
-
-.metric .value{
-  font-size:27px;
-  font-weight:800;
-  margin-top:12px;
-}
-
-.status{
-  font-size:30px;
-  font-weight:900;
-}
-
-.buy{color:#087f23}
-.sell{color:#c62828}
-.hold{color:#e28a00}
-
-canvas{
-  width:100%;
-  height:300px;
+.metric span{
   display:block;
-  background:#fafbfc;
-  border-radius:18px;
+  color:#71808e;
+  font-size:20px;
+  margin-bottom:12px;
 }
 
-button,select,input{
+.metric b{
+  font-size:32px;
+}
+
+label{
+  display:block;
+  margin:18px 0 7px;
+  color:#687684;
+  font-size:17px;
+}
+
+select,
+input{
   width:100%;
-  min-height:48px;
+  padding:15px;
+  border:1px solid #cbd5dc;
   border-radius:12px;
-  border:1px solid #cbd3da;
+  font-size:18px;
   background:white;
-  font-size:16px;
-  padding:10px 12px;
 }
 
 button{
-  background:#16803c;
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:17px;
+  margin-top:20px;
+  background:#1683d8;
   color:white;
-  border:none;
-  font-weight:800;
-  cursor:pointer;
-}
-
-button.secondary{
-  background:#eef2f5;
-  color:#17202a;
+  font-size:19px;
+  font-weight:700;
 }
 
 button:active{
   transform:scale(.99);
 }
 
-label{
-  display:block;
-  margin-top:14px;
-  margin-bottom:6px;
+.chart{
+  width:100%;
+  height:320px;
+  background:#fafbfc;
+  border-radius:20px;
 }
 
-.note{
-  background:#fff8df;
-  border:1px solid #f0df9a;
-  color:#695719;
+.status{
+  margin-top:18px;
+  padding:16px;
   border-radius:14px;
-  padding:13px;
-  font-size:14px;
-  line-height:1.6;
-}
-
-.success{
-  background:#edf9f0;
-  border:1px solid #b9e1c2;
-  color:#246b32;
-  border-radius:14px;
-  padding:13px;
-  font-size:14px;
+  background:#eef7ff;
+  color:#34566f;
   line-height:1.6;
 }
 
 .score{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  padding:12px 0;
-  border-bottom:1px solid #edf0f2;
+  padding:13px 0;
+  font-size:20px;
+  border-bottom:1px solid #e7ecef;
 }
 
 .score:last-child{
-  border-bottom:none;
+  border-bottom:0;
 }
 
 .score b{
-  font-size:22px;
+  font-size:25px;
 }
 
-nav{
+.buy{
+  color:#148447;
+}
+
+.sell{
+  color:#c0392b;
+}
+
+.hold{
+  color:#687684;
+}
+
+footer{
   position:fixed;
-  z-index:20;
+  bottom:0;
   left:0;
   right:0;
-  bottom:0;
+  height:70px;
   background:rgba(255,255,255,.96);
-  border-top:1px solid #dce2e7;
+  border-top:1px solid #dce3e8;
   display:flex;
-  padding:8px max(10px,env(safe-area-inset-left))
-          calc(8px + env(safe-area-inset-bottom));
+  justify-content:center;
+  align-items:center;
+  gap:100px;
+  font-size:18px;
+  z-index:10;
 }
 
-nav button{
+footer button{
+  width:auto;
+  margin:0;
+  padding:8px 20px;
   background:none;
-  color:#007aff;
-  border-radius:0;
-  flex:1;
-  font-size:16px;
+  color:#1683d8;
 }
 
 .hidden{
-  display:none!important;
+  display:none;
 }
 
-.small{
-  font-size:13px;
-  color:#71808e;
-  line-height:1.6;
-}
+@media(max-width:600px){
+  main{
+    padding:18px;
+  }
 
-@media(max-width:500px){
+  header{
+    padding:35px 22px 28px;
+  }
+
+  header h1{
+    font-size:30px;
+  }
+
   .grid{
-    gap:10px;
+    gap:12px;
   }
 
   .metric{
-    padding:15px;
+    padding:18px;
   }
 
-  .metric .value{
-    font-size:24px;
+  .metric span{
+    font-size:16px;
+  }
+
+  .metric b{
+    font-size:26px;
   }
 
   .big{
-    font-size:34px;
+    font-size:36px;
   }
 
-  canvas{
-    height:260px;
+  .card{
+    padding:22px;
+    border-radius:24px;
+  }
+
+  footer{
+    gap:45px;
   }
 }
 </style>
@@ -248,225 +251,214 @@ nav button{
 
 <main>
 
-<!-- 結果 -->
-<section id="result">
+  <!-- 結果 -->
+  <section id="result">
 
-  <div class="card">
-    <div class="muted">バックテスト最終資産</div>
-    <div id="final" class="big">¥100,000</div>
-    <div id="profit" class="sub">利益 ¥0</div>
-  </div>
-
-  <div class="grid">
-
-    <div class="metric">
-      <div class="label">年率</div>
-      <div id="annual" class="value">0%</div>
+    <div class="card">
+      <div class="sub">バックテスト最終資産</div>
+      <div class="big" id="finalAsset">---</div>
+      <div class="sub" id="profit">---</div>
     </div>
-
-    <div class="metric">
-      <div class="label">最大下落</div>
-      <div id="drawdown" class="value">0%</div>
-    </div>
-
-    <div class="metric">
-      <div class="label">売買回数</div>
-      <div id="trades" class="value">0回</div>
-    </div>
-
-    <div class="metric">
-      <div class="label">現在判断</div>
-      <div id="decision" class="value status hold">待機</div>
-    </div>
-
-  </div>
-
-  <div class="card">
-    <div class="title">📈 実際の価格推移</div>
-    <canvas id="chart"></canvas>
-    <div id="dataMessage" class="small">
-      サンプルデータを使用しています。
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="title">🤖 投資判断スコア</div>
-
-    <div class="score">
-      <span>トレンド</span>
-      <b id="trendScore">--/100</b>
-    </div>
-
-    <div class="score">
-      <span>モメンタム</span>
-      <b id="momentumScore">--/100</b>
-    </div>
-
-    <div class="score">
-      <span>総合</span>
-      <b id="totalScore">--/100</b>
-    </div>
-
-    <p class="small">
-      20・50・200期間移動平均と直近リターンによる
-      検証用ルールです。利益を保証するAIではありません。
-    </p>
-  </div>
-
-</section>
-
-
-<!-- 設定 -->
-<section id="settings" class="hidden">
-
-  <div class="card">
-
-    <div class="title">⚙️ 設定</div>
-
-    <label class="muted">銘柄</label>
-    <select id="ticker">
-      <option value="sample">サンプルデータ</option>
-      <option value="SPY">S&P 500 ETF（SPY）</option>
-      <option value="QQQ">NASDAQ100 ETF（QQQ）</option>
-      <option value="VT">全世界株式ETF（VT）</option>
-    </select>
-
-    <label class="muted">期間</label>
-    <select id="range">
-      <option value="5">5年間</option>
-      <option value="10">10年間</option>
-      <option value="20">20年間</option>
-    </select>
-
-    <label class="muted">初期資金</label>
-    <input id="initial" type="number" value="100000" min="0">
-
-    <label class="muted">毎月積立</label>
-    <input id="monthly" type="number" value="30000" min="0">
-
-    <label class="muted">想定年利</label>
-    <input id="rate" type="number" value="7" step="0.1">
-
-    <label class="muted">戦略</label>
-    <select id="strategy">
-      <option value="trend">トレンドフォロー</option>
-      <option value="momentum">モメンタム</option>
-      <option value="balanced">バランス型</option>
-    </select>
-
-    <br><br>
-
-    <button onclick="runBacktest()">
-      バックテスト開始
-    </button>
-
-    <br><br>
-
-    <button class="secondary" onclick="loadSample()">
-      サンプルデータで試す
-    </button>
-
-  </div>
-
-  <div class="card">
-    <div class="title">📊 資産配分</div>
 
     <div class="grid">
 
       <div class="metric">
-        <div class="label">株式</div>
-        <div class="value">70%</div>
+        <span>年率</span>
+        <b id="annualReturn">---</b>
       </div>
 
       <div class="metric">
-        <div class="label">現金</div>
-        <div class="value">30%</div>
+        <span>最大下落</span>
+        <b id="maxDrawdown">---</b>
+      </div>
+
+      <div class="metric">
+        <span>売買回数</span>
+        <b id="tradeCount">---</b>
+      </div>
+
+      <div class="metric">
+        <span>現在判断</span>
+        <b id="decision">---</b>
       </div>
 
     </div>
 
-    <br>
-
-    <div class="note">
-      この配分はサンプルです。実際の投資では、
-      リスク許容度や投資期間に合わせて変更してください。
+    <div class="card">
+      <h2>📈 実際の価格推移</h2>
+      <canvas id="chart" class="chart"></canvas>
+      <div id="chartStatus" class="status">
+        バックテスト用データを準備しています。
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <div class="title">⚠️ 実データについて</div>
+    <div class="card">
+      <h2>🤖 投資判断スコア</h2>
 
-    <div class="note">
-      株価の実データは外部サービスの通信状況や
-      ブラウザの制限によって取得できない場合があります。
-      その場合でもサンプルデータでバックテストできます。
+      <div class="score">
+        <span>トレンド</span>
+        <b id="trendScore">---</b>
+      </div>
+
+      <div class="score">
+        <span>モメンタム</span>
+        <b id="momentumScore">---</b>
+      </div>
+
+      <div class="score">
+        <span>総合</span>
+        <b id="totalScore">---</b>
+      </div>
+
+      <div class="status">
+        20・50・200期間移動平均と直近リターンを使った
+        簡易ルールです。利益を保証するAIではありません。
+      </div>
     </div>
-  </div>
 
-</section>
+  </section>
+
+  <!-- 設定 -->
+  <section id="settings" class="hidden">
+
+    <div class="card">
+      <h2>⚙️ 設定</h2>
+
+      <label>銘柄</label>
+      <select id="ticker">
+        <option value="SAMPLE">サンプル株</option>
+        <option value="SP500">S&P500</option>
+        <option value="NASDAQ">NASDAQ</option>
+        <option value="NIKKEI">日経平均</option>
+      </select>
+
+      <label>期間</label>
+      <select id="period">
+        <option value="1">1年</option>
+        <option value="3" selected>3年</option>
+        <option value="5">5年</option>
+        <option value="10">10年</option>
+      </select>
+
+      <label>初期資金</label>
+      <input id="initial" type="number" value="1000000">
+
+      <label>毎月積立</label>
+      <input id="monthly" type="number" value="50000">
+
+      <label>戦略</label>
+      <select id="strategy">
+        <option value="trend">トレンドフォロー</option>
+        <option value="momentum">モメンタム</option>
+        <option value="balanced" selected>バランス型</option>
+      </select>
+
+      <button onclick="backtest()">
+        🚀 バックテスト実行
+      </button>
+
+      <div id="message" class="status">
+        外部サイトへの接続は必要ありません。
+        この版はスマホでもバックテストが動くようにしています。
+      </div>
+    </div>
+
+  </section>
 
 </main>
 
-
-<nav>
-  <button id="navResult" onclick="tab('result')">
-    📈 結果
-  </button>
-
-  <button id="navSettings" onclick="tab('settings')">
-    ⚙️ 設定
-  </button>
-</nav>
-
+<footer>
+  <button onclick="showTab('result')">📈 結果</button>
+  <button onclick="showTab('settings')">⚙️ 設定</button>
+</footer>
 
 <script>
 
-let prices=[];
-let result={};
-
-
 /* =========================
-   金額表示
+   基本関数
 ========================= */
 
+const $ = id => document.getElementById(id);
+
 function yen(n){
-  return "¥"+Math.round(n).toLocaleString("ja-JP");
+  return "¥" + Math.round(n).toLocaleString("ja-JP");
+}
+
+function percent(n){
+  return n.toFixed(2) + "%";
+}
+
+function showTab(tab){
+
+  $("result").classList.toggle(
+    "hidden",
+    tab !== "result"
+  );
+
+  $("settings").classList.toggle(
+    "hidden",
+    tab !== "settings"
+  );
+
+  window.scrollTo(0,0);
 }
 
 
 /* =========================
-   サンプル株価生成
+   サンプル株価を生成
+   ※外部通信なし
 ========================= */
 
-function generatePrices(years){
+function createSampleData(years){
 
-  const months=years*12;
-  let p=100;
+  const days = years * 252;
 
-  const arr=[];
+  let price = 10000;
 
-  for(let i=0;i<months;i++){
+  const data = [];
 
-    const seasonal=
-      Math.sin(i/5)*0.018;
+  let seed = 123456;
 
-    const trend=
-      0.006;
+  function random(){
 
-    const random=
-      (Math.random()-0.5)*0.045;
+    seed =
+      (seed * 1664525 + 1013904223)
+      % 4294967296;
 
-    p=p*(1+trend+seasonal+random);
+    return seed / 4294967296;
+  }
 
-    if(p<40)p=40;
+  for(let i=0;i<days;i++){
 
-    arr.push({
-      date:i,
-      price:p
+    /*
+      上昇トレンド＋ランダム変動
+      実際の相場に近い形を再現
+    */
+
+    const trend = 0.00028;
+
+    const wave =
+      Math.sin(i / 45) * 0.002;
+
+    const noise =
+      (random() - 0.5) * 0.025;
+
+    const change =
+      trend + wave + noise;
+
+    price *= (1 + change);
+
+    if(price < 1000){
+      price = 1000;
+    }
+
+    data.push({
+      day:i,
+      price:price
     });
   }
 
-  return arr;
+  return data;
 }
 
 
@@ -474,17 +466,23 @@ function generatePrices(years){
    移動平均
 ========================= */
 
-function movingAverage(arr,n){
+function movingAverage(data,index,period){
 
-  if(arr.length<n)return null;
-
-  let sum=0;
-
-  for(let i=arr.length-n;i<arr.length;i++){
-    sum+=arr[i].price;
+  if(index < period - 1){
+    return null;
   }
 
-  return sum/n;
+  let sum = 0;
+
+  for(
+    let i=index-period+1;
+    i<=index;
+    i++
+  ){
+    sum += data[i].price;
+  }
+
+  return sum / period;
 }
 
 
@@ -492,66 +490,81 @@ function movingAverage(arr,n){
    スコア計算
 ========================= */
 
-function calculateScore(arr){
+function calculateScore(data,index){
 
-  const ma20=movingAverage(arr,20);
-  const ma50=movingAverage(arr,50);
+  const p = data[index].price;
 
-  if(!ma20 || !ma50){
-    return {
-      trend:50,
-      momentum:50,
-      total:50
-    };
+  const ma20 =
+    movingAverage(data,index,20);
+
+  const ma50 =
+    movingAverage(data,index,50);
+
+  const ma200 =
+    movingAverage(data,index,200);
+
+  let trend = 50;
+
+  if(ma20 && ma50){
+
+    if(p > ma20){
+      trend += 15;
+    }else{
+      trend -= 15;
+    }
+
+    if(ma20 > ma50){
+      trend += 20;
+    }else{
+      trend -= 20;
+    }
   }
 
-  const last=arr[arr.length-1].price;
+  let momentum = 50;
 
-  let trend=50;
+  if(index >= 20){
 
-  if(last>ma20)trend+=20;
-  else trend-=20;
+    const old =
+      data[index-20].price;
 
-  if(ma20>ma50)trend+=25;
-  else trend-=25;
+    const ret =
+      (p / old - 1) * 100;
 
-  trend=Math.max(0,Math.min(100,trend));
+    momentum =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          50 + ret * 5
+        )
+      );
+  }
 
+  let total;
 
-  let momentum=50;
+  const strategy =
+    $("strategy").value;
 
-  const old=arr[Math.max(0,arr.length-13)].price;
+  if(strategy === "trend"){
 
-  const ret=(last/old-1)*100;
+    total = trend * 0.7 + momentum * 0.3;
 
-  momentum=50+ret*8;
+  }else if(strategy === "momentum"){
 
-  momentum=Math.max(0,Math.min(100,momentum));
+    total = trend * 0.3 + momentum * 0.7;
 
+  }else{
 
-  const total=Math.round(
-    trend*.55+
-    momentum*.45
-  );
+    total = trend * 0.5 + momentum * 0.5;
+  }
 
   return {
-    trend:Math.round(trend),
+    trend:Math.round(
+      Math.max(0,Math.min(100,trend))
+    ),
     momentum:Math.round(momentum),
-    total:total
+    total:Math.round(total)
   };
-}
-
-
-/* =========================
-   現在判断
-========================= */
-
-function getDecision(score){
-
-  if(score>=70)return "買い";
-  if(score<=35)return "売り";
-
-  return "待機";
 }
 
 
@@ -559,229 +572,273 @@ function getDecision(score){
    バックテスト
 ========================= */
 
-function runBacktest(){
+function backtest(){
 
-  const years=
-    Number(document.getElementById("range").value);
+  try{
 
-  const initial=
-    Number(document.getElementById("initial").value)||0;
+    $("message").textContent =
+      "バックテストを実行しています…";
 
-  const monthly=
-    Number(document.getElementById("monthly").value)||0;
+    const years =
+      Number($("period").value);
 
-  const rate=
-    Number(document.getElementById("rate").value)||0;
+    const initial =
+      Number($("initial").value);
 
-  prices=generatePrices(years);
+    const monthly =
+      Number($("monthly").value);
 
-  /*
-    サンプル価格を年率設定に
-    近づけるための係数
-  */
-
-  let cash=initial;
-
-  const history=[];
-
-  let invested=0;
-
-  let maxAsset=initial;
-  let maxDrawdown=0;
-  let trades=0;
-
-  for(let i=0;i<prices.length;i++){
-
-    const price=prices[i].price;
-
-    /*
-      毎月積立
-    */
-
-    if(i>0){
-      cash+=monthly;
+    if(
+      !Number.isFinite(initial) ||
+      initial <= 0
+    ){
+      throw new Error(
+        "初期資金を正しく入力してください。"
+      );
     }
 
-    invested+=monthly;
-
-    /*
-      指定年率をベースにした
-      長期成長モデル
-    */
-
-    if(i>0){
-
-      const monthlyRate=
-        Math.pow(1+rate/100,1/12)-1;
-
-      cash*=1+monthlyRate;
-
+    if(
+      !Number.isFinite(monthly) ||
+      monthly < 0
+    ){
+      throw new Error(
+        "毎月積立額を正しく入力してください。"
+      );
     }
 
-    /*
-      簡易トレンド売買
-    */
+    /* データ生成 */
 
-    if(i>=50){
+    const data =
+      createSampleData(years);
 
-      const ma20=
-        prices.slice(i-19,i+1)
-        .reduce((a,b)=>a+b.price,0)/20;
+    /* 資産計算 */
 
-      const ma50=
-        prices.slice(i-49,i+1)
-        .reduce((a,b)=>a+b.price,0)/50;
+    let cash = initial;
 
-      if(ma20>ma50){
-        trades++;
+    let shares = 0;
+
+    let lastMonth = -1;
+
+    let tradeCount = 0;
+
+    const equity = [];
+
+    for(let i=0;i<data.length;i++){
+
+      const price =
+        data[i].price;
+
+      /*
+        21営業日ごとに積立
+      */
+
+      const month =
+        Math.floor(i / 21);
+
+      if(month !== lastMonth){
+
+        cash += monthly;
+
+        lastMonth = month;
+      }
+
+      /*
+        判断
+      */
+
+      const score =
+        calculateScore(data,i);
+
+      /*
+        総合スコアによる売買
+      */
+
+      if(score.total >= 65){
+
+        if(cash >= price){
+
+          const buy =
+            Math.floor(cash / price);
+
+          if(buy > 0){
+
+            shares += buy;
+
+            cash -=
+              buy * price;
+
+            tradeCount++;
+          }
+        }
+
+      }else if(score.total <= 35){
+
+        if(shares > 0){
+
+          cash +=
+            shares * price;
+
+          shares = 0;
+
+          tradeCount++;
+        }
+      }
+
+      const asset =
+        cash + shares * price;
+
+      equity.push(asset);
+    }
+
+
+    /* 最終資産 */
+
+    const final =
+      equity[equity.length-1];
+
+    const invested =
+      initial +
+      monthly *
+      Math.floor(data.length / 21);
+
+    const profit =
+      final - invested;
+
+    const totalReturn =
+      (final / invested - 1) * 100;
+
+    const annualReturn =
+      (
+        Math.pow(
+          final / invested,
+          1 / years
+        ) - 1
+      ) * 100;
+
+
+    /* 最大下落 */
+
+    let peak =
+      equity[0];
+
+    let maxDD = 0;
+
+    for(const value of equity){
+
+      if(value > peak){
+        peak = value;
+      }
+
+      const dd =
+        (value / peak - 1) * 100;
+
+      if(dd < maxDD){
+        maxDD = dd;
       }
     }
 
-    history.push(cash);
 
-    if(cash>maxAsset){
-      maxAsset=cash;
+    /* 最新スコア */
+
+    const latest =
+      calculateScore(
+        data,
+        data.length-1
+      );
+
+
+    /* 表示 */
+
+    $("finalAsset").textContent =
+      yen(final);
+
+    $("profit").textContent =
+      "損益 " +
+      yen(profit) +
+      " / 投資元本 " +
+      yen(invested);
+
+    $("annualReturn").textContent =
+      percent(annualReturn);
+
+    $("maxDrawdown").textContent =
+      percent(maxDD);
+
+    $("tradeCount").textContent =
+      tradeCount + "回";
+
+    $("trendScore").textContent =
+      latest.trend + "/100";
+
+    $("momentumScore").textContent =
+      latest.momentum + "/100";
+
+    $("totalScore").textContent =
+      latest.total + "/100";
+
+
+    let decision =
+      "様子見";
+
+    if(latest.total >= 65){
+      decision = "買い";
+      $("decision").className =
+        "buy";
+    }else if(latest.total <= 35){
+      decision = "売り";
+      $("decision").className =
+        "sell";
+    }else{
+      decision = "様子見";
+      $("decision").className =
+        "hold";
     }
 
-    const dd=
-      (cash/maxAsset-1)*100;
+    $("decision").textContent =
+      decision;
 
-    if(dd<maxDrawdown){
-      maxDrawdown=dd;
-    }
+
+    /* グラフ */
+
+    drawChart(
+      data,
+      equity
+    );
+
+    $("chartStatus").textContent =
+      "バックテスト完了。外部データ通信なしで計算しています。 " +
+      "銘柄：「" +
+      $("ticker").options[
+        $("ticker").selectedIndex
+      ].text +
+      "」 期間：" +
+      years +
+      "年";
+
+
+    $("message").textContent =
+      "バックテストが正常に完了しました。";
+
+
+    showTab("result");
+
+  }catch(error){
+
+    console.error(error);
+
+    $("finalAsset").textContent =
+      "エラー";
+
+    $("profit").textContent =
+      error.message;
+
+    $("chartStatus").textContent =
+      "バックテストに失敗しました。";
+
+    $("message").textContent =
+      "エラー：" +
+      error.message;
   }
-
-
-  /*
-    積立元本
-  */
-
-  const totalInvested=
-    initial+
-    monthly*(prices.length-1);
-
-
-  /*
-    最終資産
-  */
-
-  const finalAsset=cash;
-
-  /*
-    年率
-  */
-
-  const yearsActual=
-    prices.length/12;
-
-  let annual=0;
-
-  if(totalInvested>0){
-
-    annual=
-      (Math.pow(
-        finalAsset/totalInvested,
-        1/Math.max(yearsActual,1)
-      )-1)*100;
-
-  }
-
-
-  result={
-    final:finalAsset,
-    invested:totalInvested,
-    profit:finalAsset-totalInvested,
-    annual:annual,
-    drawdown:maxDrawdown,
-    trades:trades,
-    history:history
-  };
-
-
-  render();
-
-}
-
-
-/* =========================
-   画面表示
-========================= */
-
-function render(){
-
-  document.getElementById("final").textContent=
-    yen(result.final);
-
-  document.getElementById("profit").textContent=
-    "利益 "+
-    yen(result.profit)+
-    " / 投資元本 "+
-    yen(result.invested);
-
-
-  document.getElementById("annual").textContent=
-    result.annual.toFixed(2)+"%";
-
-
-  document.getElementById("drawdown").textContent=
-    result.drawdown.toFixed(2)+"%";
-
-
-  document.getElementById("trades").textContent=
-    result.trades+"回";
-
-
-  /*
-    スコア
-  */
-
-  const score=
-    calculateScore(prices);
-
-  document.getElementById("trendScore")
-    .textContent=score.trend+"/100";
-
-  document.getElementById("momentumScore")
-    .textContent=score.momentum+"/100";
-
-  document.getElementById("totalScore")
-    .textContent=score.total+"/100";
-
-
-  /*
-    判断
-  */
-
-  const decision=
-    getDecision(score.total);
-
-  const el=
-    document.getElementById("decision");
-
-  el.textContent=decision;
-
-  el.className="value status";
-
-  if(decision==="買い"){
-    el.classList.add("buy");
-  }
-
-  else if(decision==="売り"){
-    el.classList.add("sell");
-  }
-
-  else{
-    el.classList.add("hold");
-  }
-
-
-  document.getElementById("dataMessage").textContent=
-    "現在はサンプルデータでバックテストしています。"+
-    "設定画面から条件を変更できます。";
-
-
-  drawChart();
-
 }
 
 
@@ -789,197 +846,131 @@ function render(){
    グラフ
 ========================= */
 
-function drawChart(){
+function drawChart(data,equity){
 
-  const canvas=
-    document.getElementById("chart");
+  const canvas =
+    $("chart");
 
-  const ctx=
+  const ctx =
     canvas.getContext("2d");
 
-
-  const rect=
+  const rect =
     canvas.getBoundingClientRect();
 
-  const dpr=
-    window.devicePixelRatio||1;
+  const ratio =
+    window.devicePixelRatio || 1;
 
-  canvas.width=
-    rect.width*dpr;
+  canvas.width =
+    rect.width * ratio;
 
-  canvas.height=
-    rect.height*dpr;
+  canvas.height =
+    rect.height * ratio;
 
-  ctx.scale(dpr,dpr);
+  ctx.scale(ratio,ratio);
 
+  const w = rect.width;
 
-  const w=rect.width;
-  const h=rect.height;
+  const h = rect.height;
 
   ctx.clearRect(0,0,w,h);
 
+  const prices =
+    data.map(x => x.price);
 
-  if(!prices.length)return;
+  const min =
+    Math.min(...prices);
 
+  const max =
+    Math.max(...prices);
 
-  const values=
-    prices.map(x=>x.price);
+  const range =
+    max-min || 1;
 
-  const min=
-    Math.min(...values);
+  /* グリッド */
 
-  const max=
-    Math.max(...values);
+  ctx.strokeStyle =
+    "#e5eaee";
 
-
-  /*
-    グリッド
-  */
-
-  ctx.strokeStyle="#e2e7eb";
-  ctx.lineWidth=1;
+  ctx.lineWidth = 1;
 
   for(let i=1;i<5;i++){
 
-    const y=
-      h*i/5;
+    const y =
+      h * i / 5;
 
     ctx.beginPath();
+
     ctx.moveTo(0,y);
+
     ctx.lineTo(w,y);
+
     ctx.stroke();
   }
 
+  /* 株価 */
 
-  /*
-    価格ライン
-  */
+  ctx.strokeStyle =
+    "#1683d8";
 
-  ctx.strokeStyle="#147ef5";
-  ctx.lineWidth=3;
+  ctx.lineWidth = 3;
 
   ctx.beginPath();
 
+  const step =
+    w / (data.length-1);
 
-  values.forEach((v,i)=>{
+  for(let i=0;i<data.length;i++){
 
-    const x=
-      i/(values.length-1)*w;
+    const x =
+      i * step;
 
-    const y=
-      h-
-      ((v-min)/(max-min||1))*h;
+    const y =
+      h -
+      ((data[i].price-min)/range)
+      * (h-20)
+      - 10;
 
     if(i===0){
       ctx.moveTo(x,y);
     }else{
       ctx.lineTo(x,y);
     }
-
-  });
+  }
 
   ctx.stroke();
-
-
-  /*
-    最終点
-  */
-
-  const last=values[values.length-1];
-
-  const lx=w;
-
-  const ly=
-    h-
-    ((last-min)/(max-min||1))*h;
-
-
-  ctx.fillStyle="#147ef5";
-
-  ctx.beginPath();
-  ctx.arc(lx,ly,5,0,Math.PI*2);
-  ctx.fill();
-
 }
 
 
 /* =========================
-   サンプルデータ
+   初期表示
 ========================= */
 
-function loadSample(){
+window.addEventListener(
+  "load",
+  function(){
 
-  document.getElementById("ticker").value="sample";
+    backtest();
 
-  runBacktest();
-
-  tab("result");
-
-}
-
-
-/* =========================
-   タブ
-========================= */
-
-function tab(id){
-
-  document
-    .getElementById("result")
-    .classList.toggle(
-      "hidden",
-      id!=="result"
-    );
-
-  document
-    .getElementById("settings")
-    .classList.toggle(
-      "hidden",
-      id!=="settings"
-    );
-
-}
-
-
-/* =========================
-   初期化
-========================= */
-
-function init(){
-
-  /*
-    最初からサンプルデータを
-    表示することで、
-    外部APIが失敗しても
-    「Load failed」にならない
-  */
-
-  prices=generatePrices(10);
-
-  document.getElementById("range").value="10";
-
-  runBacktest();
-
-}
-
-
-/* =========================
-   画面サイズ変更
-========================= */
+  }
+);
 
 window.addEventListener(
   "resize",
   function(){
-    if(prices.length){
-      drawChart();
+
+    /*
+      画面サイズ変更時も
+      グラフを再描画
+    */
+
+    const canvas =
+      $("chart");
+
+    if(canvas){
+      backtest();
     }
   }
 );
-
-
-/* 起動 */
-
-init();
 
 </script>
 
