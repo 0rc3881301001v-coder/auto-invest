@@ -1,0 +1,46 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="AUTO INVEST">
+<title>AUTO INVEST BACKTEST</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6f8;color:#17202a;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}.app{max-width:500px;margin:auto;background:#fff;min-height:100vh}
+header{background:#17202a;color:#fff;padding:calc(18px + env(safe-area-inset-top)) 18px 16px}.brand{font-size:22px;font-weight:850}.sub{font-size:12px;color:#bdc6ce}
+main{padding:15px 15px 90px}.card{background:#fff;border:1px solid #e5e9ed;border-radius:18px;padding:17px;margin-bottom:13px;box-shadow:0 3px 12px #00000008}.title{font-weight:800}.muted{color:#7b858e;font-size:12px}.row{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:9px 0}.money{font-size:30px;font-weight:850}.gain{font-weight:800;color:#16824f}.loss{color:#b3261e}.btn{border:0;border-radius:12px;padding:13px;width:100%;background:#17202a;color:#fff;font-weight:800;margin-top:8px}.secondary{background:#edf1f4;color:#17202a}.input,.select{width:100%;padding:12px;border:1px solid #d9dfe5;border-radius:12px;margin:6px 0 12px;font-size:16px;background:#fff}.score{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:50%;background:#e8f7ef;color:#16824f;font-weight:850;font-size:20px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#f7f9fa;border-radius:14px;padding:13px}.metric b{display:block;font-size:19px;margin-top:4px}.asset{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #edf0f2}.asset:last-child{border:0}.bar{height:9px;background:#e8edf0;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:#35a66f}.notice{font-size:11px;line-height:1.6;color:#707a83}canvas{width:100%;height:190px;background:#fafbfc;border-radius:14px}
+nav{position:fixed;z-index:5;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);display:flex;justify-content:space-around;background:#fff;border-top:1px solid #e5e9ed;padding:9px 5px calc(9px + env(safe-area-inset-bottom))}nav button{border:0;background:none;font-size:11px;color:#707a83;font-weight:700}nav button.active{color:#17202a}
+.toast{display:none;position:fixed;z-index:10;left:50%;bottom:90px;transform:translateX(-50%);background:#17202a;color:#fff;padding:11px 15px;border-radius:12px;font-size:12px}
+</style></head><body><div class="app">
+<header><div class="brand">AUTO INVEST</div><div class="sub">AIバックテスト / iPhone版</div></header>
+<main>
+<section id="home"><div class="card"><div class="muted">バックテスト最終資産</div><div class="money" id="final">¥0</div><div class="gain" id="profit">+¥0</div></div>
+<div class="grid"><div class="metric"><span class="muted">年率リターン</span><b id="cagr">0%</b></div><div class="metric"><span class="muted">最大下落</span><b id="mdd">0%</b></div><div class="metric"><span class="muted">勝率</span><b id="win">0%</b></div><div class="metric"><span class="muted">取引回数</span><b id="trades">0</b></div></div>
+<div class="card"><div class="title">📈 資産推移</div><canvas id="chart" width="900" height="380"></canvas></div>
+<div class="card"><div class="title">🤖 AI戦略</div><div class="row"><span>判断方式</span><b>移動平均 + モメンタム</b></div><div class="row"><span>買い</span><b>上昇トレンド</b></div><div class="row"><span>現金化</span><b>下落トレンド</b></div><p class="notice">これは実運用AIではなく、検証用のルールベース戦略です。過去の成績は将来の利益を保証しません。</p></div></section>
+
+<section id="settings" style="display:none"><div class="card"><div class="title">⚙️ 条件設定</div>
+<label class="muted">初期資金</label><input class="input" id="initial" type="number" value="1000000">
+<label class="muted">毎月積立</label><input class="input" id="monthly" type="number" value="50000">
+<label class="muted">想定年利（データがない期間の簡易シミュレーション）</label><input class="input" id="rate" type="number" value="7" step=".1">
+<label class="muted">運用年数</label><select class="select" id="years"><option>5</option><option selected>10</option><option>15</option><option>20</option></select>
+<label class="muted">戦略</label><select class="select" id="strategy"><option value="trend" selected>トレンド追随</option><option value="dca">積立のみ</option><option value="balanced">バランス</option></select>
+<button class="btn" onclick="run()">バックテスト開始</button>
+<button class="btn secondary" onclick="loadSample()">サンプルデータで試す</button>
+</div>
+<div class="card"><div class="title">📊 資産配分</div><div id="allocation"></div></div>
+<div class="card"><div class="title">⚠️ 実データについて</div><p class="notice">このファイル単体では株価配信APIへ安全に接続するためのサーバーを持たないため、現在は内蔵のサンプル時系列で動作します。実データ版では市場データAPIをサーバー側で取得し、APIキーをiPhoneに埋め込まない構成にします。</p></div></section>
+</main>
+<nav><button id="n-home" class="active" onclick="tab('home')">📈<br>結果</button><button id="n-settings" onclick="tab('settings')">⚙️<br>設定</button></nav><div class="toast" id="toast"></div>
+</div>
+<script>
+let series=[],result={};
+function yen(n){return "¥"+Math.round(n).toLocaleString("ja-JP")}
+function tab(id){document.getElementById("home").style.display=id==="home"?"block":"none";document.getElementById("settings").style.display=id==="settings"?"block":"none";document.getElementById("n-home").classList.toggle("active",id==="home");document.getElementById("n-settings").classList.toggle("active",id==="settings")}
+function toast(t){let x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",1800)}
+function makeSeries(years,rate){let n=years*12,arr=[],p=100;for(let i=0;i<n;i++){let cycle=Math.sin(i/5)*.025;let trend=rate/100/12;let shock=(Math.random()-.46)*.045;p*=1+trend+cycle*.15+shock;arr.push(p)}return arr}
+function run(){let years=+document.getElementById("years").value, initial=+document.getElementById("initial").value||0, monthly=+document.getElementById("monthly").value||0, rate=+document.getElementById("rate").value||0;series=makeSeries(years,rate);let cash=initial,units=0,peak=initial,value=initial,rets=[],trades=0,wins=0;
+for(let i=0;i<series.length;i++){cash+=monthly;let ma=i<6?series[i]:series.slice(i-6,i).reduce((a,b)=>a+b,0)/6;let price=series[i];let before=value;if(document.getElementById("strategy").value==="dca"){units+=cash/price;cash=0;trades++}else{if(price>=ma){units+=cash/price;cash=0;trades++}else{cash+=units*price;units=0;}}value=cash+units*price;if(before>0)rets.push(value/before-1);if(value>peak)peak=value;let dd=value/peak-1;if(dd<-0.01){}if(value>before)wins++}
+value=cash+units*series.at(-1);let invested=initial+monthly*series.length,profit=value-invested;let maxdd=0,pk=initial;let tmp=initial;for(let i=0;i<series.length;i++){let m=tmp; if(m>pk)pk=m;let dd=tmp/pk-1;if(dd<maxdd)maxdd=dd;tmp=initial+monthly*(i+1)*(series[i]/series[0])}let cagr=Math.pow(value/Math.max(initial,1),1/years)-1;result={value,invested,profit,cagr,maxdd,wins,trades,years};render()}
+function render(){document.getElementById("final").textContent=yen(result.value);document.getElementById("profit").textContent=(result.profit>=0?"+":"")+yen(result.profit);document.getElementById("profit").className=result.profit>=0?"gain":"loss";document.getElementById("cagr").textContent=(result.cagr*100).toFixed(2)+"%";document.getElementById("mdd").textContent=(result.maxdd*100).toFixed(2)+"%";document.getElementById("win").textContent=Math.min(100,Math.round(result.wins/Math.max(series.length,1)*100))+"%";document.getElementById("trades").textContent=result.trades;draw();toast("バックテスト完了")}
+function draw(){let c=document.getElementById("chart"),x=c.getContext("2d");x.clearRect(0,0,c.width,c.height);if(!series.length)return;let min=Math.min(...series),max=Math.max(...series);x.beginPath();series.forEach((v,i)=>{let px=i/(series.length-1)*c.width,py=c.height-20-(v-min)/(max-min||1)*(c.height-40);i?x.lineTo(px,py):x.moveTo(px,py)});x.strokeStyle="#16824f";x.lineWidth=5;x.stroke()}
+function loadSample(){document.getElementById("initial").value=1000000;document.getElementById("monthly").value=50000;document.getElementById("rate").value=7;document.getElementById("years").value=10;document.getElementById("strategy").value="trend";run();tab("home")}
+function init(){document.getElementById("allocation").innerHTML=[["全世界株式",40],["米国株式",25],["日本株式",10],["債券",10],["現金",15]].map(a=>`<div class="asset"><span>${a[0]}</span><b>${a[1]}%</b></div>`).join("");loadSample()}init();
+</script></body></html>
