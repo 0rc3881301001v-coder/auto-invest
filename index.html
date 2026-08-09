@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>AUTO INVEST</title>
 
 <style>
@@ -11,9 +11,9 @@
 body{
   margin:0;
   background:#f3f6f8;
-  color:#18222d;
+  color:#17212b;
   font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",
-  "Hiragino Kaku Gothic ProN","Yu Gothic",Arial,sans-serif;
+  "Noto Sans JP",Arial,sans-serif;
 }
 
 header{
@@ -24,46 +24,39 @@ header{
 
 header h1{
   margin:0;
-  font-size:34px;
+  font-size:36px;
   font-weight:800;
 }
 
 header p{
   margin:8px 0 0;
-  color:#b9c2ca;
-  font-size:21px;
+  font-size:20px;
+  color:#cbd3da;
 }
 
 main{
   max-width:900px;
-  margin:auto;
-  padding:28px;
-  padding-bottom:100px;
+  margin:0 auto;
+  padding:22px 16px 100px;
 }
 
 .card{
   background:white;
-  border:1px solid #dce3e8;
+  border:1px solid #d7e0e6;
   border-radius:28px;
-  padding:30px;
-  margin-bottom:24px;
-  box-shadow:0 4px 18px rgba(20,40,60,.04);
-}
-
-.card h2{
-  margin:0 0 22px;
-  font-size:26px;
+  padding:28px;
+  margin-bottom:20px;
+  box-shadow:0 4px 18px rgba(0,0,0,.04);
 }
 
 .big{
   font-size:42px;
   font-weight:800;
-  margin:12px 0;
+  margin:8px 0;
 }
 
-.sub{
-  color:#73808d;
-  font-size:20px;
+.muted{
+  color:#71808c;
 }
 
 .grid{
@@ -75,126 +68,136 @@ main{
 .metric{
   background:#f7f9fa;
   border-radius:24px;
-  padding:25px;
-  min-height:125px;
+  padding:22px;
 }
 
 .metric span{
   display:block;
-  color:#71808e;
-  font-size:20px;
-  margin-bottom:12px;
+  color:#71808c;
+  font-size:18px;
+  margin-bottom:8px;
 }
 
 .metric b{
-  font-size:32px;
-}
-
-.chart{
-  width:100%;
-  height:320px;
-  background:#fafbfc;
-  border-radius:20px;
-}
-
-.status{
-  margin-top:18px;
-  padding:16px;
-  border-radius:14px;
-  background:#eef7ff;
-  color:#34566f;
-  line-height:1.6;
+  font-size:30px;
 }
 
 label{
   display:block;
-  margin:18px 0 7px;
-  color:#687684;
-  font-size:17px;
+  color:#687887;
+  font-size:18px;
+  margin:20px 0 8px;
 }
 
-select,
-input{
+input,select{
   width:100%;
-  padding:15px;
-  border:1px solid #cbd5dc;
-  border-radius:12px;
-  font-size:18px;
+  padding:17px;
+  border:2px solid #d5dfe6;
+  border-radius:20px;
   background:white;
+  font-size:20px;
 }
 
 button{
-  width:100%;
   border:0;
-  border-radius:14px;
-  padding:17px;
-  margin-top:20px;
-  background:#1683d8;
-  color:white;
+  border-radius:20px;
+  padding:18px 20px;
   font-size:19px;
   font-weight:700;
+  cursor:pointer;
 }
 
-.score{
+.run{
+  width:100%;
+  margin-top:25px;
+  background:#1989df;
+  color:white;
+  font-size:22px;
+}
+
+.run:active{
+  transform:scale(.99);
+}
+
+.status{
+  margin-top:18px;
+  padding:18px;
+  background:#eef7ff;
+  border-radius:18px;
+  color:#315a77;
+  line-height:1.6;
+}
+
+canvas{
+  width:100%;
+  height:330px;
+  display:block;
+  background:#fafbfc;
+  border-radius:20px;
+}
+
+.notice{
+  color:#71808c;
+  line-height:1.7;
+}
+
+nav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(255,255,255,.96);
+  border-top:1px solid #d9e0e5;
   display:flex;
-  justify-content:space-between;
-  padding:13px 0;
-  font-size:20px;
-  border-bottom:1px solid #e7ecef;
+  justify-content:space-around;
+  padding:12px 20px calc(12px + env(safe-area-inset-bottom));
+  z-index:10;
 }
 
-.score b{
-  font-size:25px;
+nav button{
+  background:none;
+  color:#1684d8;
+  padding:8px 25px;
 }
-
-.buy{color:#148447}
-.sell{color:#c0392b}
-.hold{color:#687684}
 
 .hidden{
   display:none;
 }
 
-footer{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:70px;
-  background:rgba(255,255,255,.97);
-  border-top:1px solid #dce3e8;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:100px;
-  font-size:18px;
-  z-index:10;
+.good{
+  color:#16884a;
 }
 
-footer button{
-  width:auto;
-  margin:0;
-  padding:8px 20px;
-  background:none;
-  color:#1683d8;
+.bad{
+  color:#d13a3a;
+}
+
+.source{
+  font-size:14px;
+  margin-top:10px;
+  color:#7a8994;
 }
 
 @media(max-width:600px){
-
-  main{
-    padding:18px;
-  }
-
   header{
-    padding:35px 22px 28px;
+    padding:38px 22px 28px;
   }
 
   header h1{
-    font-size:30px;
+    font-size:32px;
+  }
+
+  main{
+    padding:16px 12px 100px;
+  }
+
+  .card{
+    padding:22px;
+    border-radius:24px;
   }
 
   .grid{
-    gap:12px;
+    gap:10px;
   }
 
   .metric{
@@ -206,19 +209,15 @@ footer button{
   }
 
   .metric b{
-    font-size:26px;
+    font-size:25px;
   }
 
   .big{
     font-size:36px;
   }
 
-  .card{
-    padding:22px;
-  }
-
-  footer{
-    gap:45px;
+  canvas{
+    height:270px;
   }
 }
 </style>
@@ -233,29 +232,30 @@ footer button{
 
 <main>
 
+<!-- 結果 -->
 <section id="result">
 
   <div class="card">
-    <div class="sub">バックテスト最終資産</div>
-    <div class="big" id="finalAsset">読み込み中…</div>
-    <div class="sub" id="profit">実データを取得しています</div>
+    <div class="muted">バックテスト最終資産</div>
+    <div id="final" class="big">---</div>
+    <div id="finalSub" class="muted">バックテストを実行してください</div>
   </div>
 
   <div class="grid">
 
     <div class="metric">
       <span>年率</span>
-      <b id="annualReturn">---</b>
+      <b id="annual">---</b>
     </div>
 
     <div class="metric">
       <span>最大下落</span>
-      <b id="maxDrawdown">---</b>
+      <b id="drawdown">---</b>
     </div>
 
     <div class="metric">
       <span>売買回数</span>
-      <b id="tradeCount">---</b>
+      <b id="trades">---</b>
     </div>
 
     <div class="metric">
@@ -267,42 +267,47 @@ footer button{
 
   <div class="card">
     <h2>📈 実際の価格推移</h2>
-    <canvas id="chart" class="chart"></canvas>
-
-    <div id="chartStatus" class="status">
-      実データを取得しています…
+    <canvas id="chart"></canvas>
+    <div id="chartMessage" class="notice">
+      バックテストを実行すると価格推移が表示されます。
     </div>
   </div>
 
   <div class="card">
     <h2>🤖 投資判断スコア</h2>
 
-    <div class="score">
-      <span>トレンド</span>
-      <b id="trendScore">---</b>
+    <div class="grid">
+      <div class="metric">
+        <span>トレンド</span>
+        <b id="trend">---</b>
+      </div>
+
+      <div class="metric">
+        <span>モメンタム</span>
+        <b id="momentum">---</b>
+      </div>
+
+      <div class="metric">
+        <span>総合</span>
+        <b id="score">---</b>
+      </div>
+
+      <div class="metric">
+        <span>現在価格</span>
+        <b id="price">---</b>
+      </div>
     </div>
 
-    <div class="score">
-      <span>モメンタム</span>
-      <b id="momentumScore">---</b>
-    </div>
-
-    <div class="score">
-      <span>総合</span>
-      <b id="totalScore">---</b>
-    </div>
-
-    <div class="status">
-      20日・50日・200日移動平均と
-      直近リターンを使った投資判断です。
+    <p class="notice">
+      20日・50日移動平均と直近リターンを使った検証用ルールです。
       利益を保証するAIではありません。
-    </div>
-
+    </p>
   </div>
 
 </section>
 
 
+<!-- 設定 -->
 <section id="settings" class="hidden">
 
   <div class="card">
@@ -312,66 +317,23 @@ footer button{
     <label>銘柄</label>
 
     <select id="ticker">
-
-      <option value="^GSPC">
-        S&P500
-      </option>
-
-      <option value="^IXIC">
-        NASDAQ総合
-      </option>
-
-      <option value="^N225">
-        日経平均
-      </option>
-
-      <option value="7203.T">
-        トヨタ自動車
-      </option>
-
-      <option value="6758.T">
-        ソニーグループ
-      </option>
-
-      <option value="9984.T">
-        ソフトバンクグループ
-      </option>
-
-      <option value="AAPL">
-        Apple
-      </option>
-
-      <option value="MSFT">
-        Microsoft
-      </option>
-
-      <option value="NVDA">
-        NVIDIA
-      </option>
-
+      <option value="^GSPC">S&P500</option>
+      <option value="^IXIC">NASDAQ</option>
+      <option value="^N225">日経225</option>
+      <option value="^TOPX">TOPIX</option>
+      <option value="AAPL">Apple</option>
+      <option value="MSFT">Microsoft</option>
+      <option value="NVDA">NVIDIA</option>
     </select>
 
 
     <label>期間</label>
 
-    <select id="period">
-
-      <option value="1">
-        1年
-      </option>
-
-      <option value="3" selected>
-        3年
-      </option>
-
-      <option value="5">
-        5年
-      </option>
-
-      <option value="10">
-        10年
-      </option>
-
+    <select id="years">
+      <option value="1">1年</option>
+      <option value="3" selected>3年</option>
+      <option value="5">5年</option>
+      <option value="10">10年</option>
     </select>
 
 
@@ -381,6 +343,8 @@ footer button{
       id="initial"
       type="number"
       value="1000000"
+      min="0"
+      step="10000"
     >
 
 
@@ -390,35 +354,29 @@ footer button{
       id="monthly"
       type="number"
       value="50000"
+      min="0"
+      step="1000"
     >
 
 
     <label>戦略</label>
 
     <select id="strategy">
-
-      <option value="trend">
-        トレンド重視
-      </option>
-
-      <option value="momentum">
-        モメンタム重視
-      </option>
-
-      <option value="balanced" selected>
-        バランス型
-      </option>
-
+      <option value="trend" selected>トレンド重視</option>
+      <option value="simple">積立重視</option>
     </select>
 
 
-    <button onclick="backtest()">
+    <button class="run" onclick="backtest()">
       🚀 バックテスト実行
     </button>
 
+    <div id="status" class="status">
+      銘柄と条件を設定して「バックテスト実行」を押してください。
+    </div>
 
-    <div id="message" class="status">
-      Yahoo Financeの実データを取得します。
+    <div class="source">
+      データ取得優先順位：GitHub内CSV → Yahoo Finance
     </div>
 
   </div>
@@ -428,162 +386,53 @@ footer button{
 </main>
 
 
-<footer>
-
-  <button onclick="showTab('result')">
-    📈 結果
-  </button>
-
-  <button onclick="showTab('settings')">
-    ⚙️ 設定
-  </button>
-
-</footer>
+<nav>
+  <button onclick="tab('result')">📈 結果</button>
+  <button onclick="tab('settings')">⚙️ 設定</button>
+</nav>
 
 
 <script>
 
+const $ = id => document.getElementById(id);
+
+
 /* =========================
-   基本
+   タブ
 ========================= */
 
-const $ = id =>
-  document.getElementById(id);
-
-
-function yen(n){
-
-  return "¥" +
-    Math.round(n).toLocaleString("ja-JP");
-
-}
-
-
-function percent(n){
-
-  return n.toFixed(2) + "%";
-
-}
-
-
-function showTab(tab){
+function tab(name){
 
   $("result").classList.toggle(
     "hidden",
-    tab !== "result"
+    name !== "result"
   );
 
   $("settings").classList.toggle(
     "hidden",
-    tab !== "settings"
+    name !== "settings"
   );
-
-  window.scrollTo(0,0);
-
 }
 
 
 /* =========================
-   Yahoo Finance 実データ取得
+   数値
 ========================= */
 
-async function getYahooData(ticker,years){
+function yen(n){
 
-  const url =
-    "https://query1.finance.yahoo.com/v8/finance/chart/" +
-    encodeURIComponent(ticker) +
-    "?range=" +
-    years +
-    "y" +
-    "&interval=1d" +
-    "&events=history" +
-    "&includeAdjustedClose=true";
+  if(!Number.isFinite(n)) return "---";
 
-  const response =
-    await fetch(url);
+  return "¥" + Math.round(n).toLocaleString("ja-JP");
+}
 
-  if(!response.ok){
 
-    throw new Error(
-      "Yahoo Financeへの接続に失敗しました"
-    );
+function pct(n){
 
-  }
+  if(!Number.isFinite(n)) return "---";
 
-  const json =
-    await response.json();
-
-  if(
-    !json.chart ||
-    !json.chart.result ||
-    !json.chart.result[0]
-  ){
-
-    throw new Error(
-      "株価データが取得できませんでした"
-    );
-
-  }
-
-  const result =
-    json.chart.result[0];
-
-  const timestamps =
-    result.timestamp;
-
-  const quote =
-    result.indicators.quote[0];
-
-  if(
-    !timestamps ||
-    !quote ||
-    !quote.close
-  ){
-
-    throw new Error(
-      "株価データが空です"
-    );
-
-  }
-
-  const data=[];
-
-  for(let i=0;i<timestamps.length;i++){
-
-    const price =
-      quote.close[i];
-
-    if(
-      price !== null &&
-      Number.isFinite(price)
-    ){
-
-      data.push({
-
-        date:
-          new Date(
-            timestamps[i]*1000
-          ),
-
-        price:
-          Number(price)
-
-      });
-
-    }
-
-  }
-
-  if(data.length < 200){
-
-    throw new Error(
-      "バックテストに必要なデータが不足しています"
-    );
-
-  }
-
-  return data;
-
+  return (n >= 0 ? "+" : "") +
+    n.toFixed(2) + "%";
 }
 
 
@@ -591,29 +440,313 @@ async function getYahooData(ticker,years){
    移動平均
 ========================= */
 
-function movingAverage(
-  data,
-  index,
-  period
-){
+function average(arr, end, period){
 
-  if(index < period-1){
-    return null;
+  if(end < period - 1) return null;
+
+  let sum = 0;
+
+  for(let i=end-period+1;i<=end;i++){
+    sum += arr[i].close;
   }
 
-  let sum=0;
+  return sum / period;
+}
 
-  for(
-    let i=index-period+1;
-    i<=index;
-    i++
-  ){
 
-    sum += data[i].price;
+/* =========================
+   CSV解析
+========================= */
+
+function parseCSV(text){
+
+  const lines =
+    text.trim()
+      .split(/\r?\n/)
+      .filter(x => x.trim());
+
+  if(lines.length < 2){
+    throw new Error("CSVのデータが少なすぎます");
+  }
+
+  const header =
+    lines[0].split(",")
+      .map(x => x.trim().toLowerCase());
+
+  let dateIndex = header.findIndex(x =>
+    x.includes("date") ||
+    x.includes("time") ||
+    x.includes("日付")
+  );
+
+  let closeIndex = header.findIndex(x =>
+    x === "close" ||
+    x.includes("adj close") ||
+    x.includes("終値")
+  );
+
+  if(dateIndex < 0) dateIndex = 0;
+
+  if(closeIndex < 0){
+
+    closeIndex =
+      header.findIndex(x =>
+        x.includes("close")
+      );
+  }
+
+  if(closeIndex < 0){
+    closeIndex = header.length - 1;
+  }
+
+  const result = [];
+
+  for(let i=1;i<lines.length;i++){
+
+    const cols = lines[i].split(",");
+
+    if(cols.length <= closeIndex) continue;
+
+    const date = new Date(
+      cols[dateIndex].replace(/"/g,"").trim()
+    );
+
+    const close = Number(
+      cols[closeIndex]
+        .replace(/"/g,"")
+        .replace(/,/g,"")
+        .trim()
+    );
+
+    if(
+      !isNaN(date.getTime()) &&
+      Number.isFinite(close) &&
+      close > 0
+    ){
+      result.push({
+        date,
+        close
+      });
+    }
+  }
+
+  if(result.length < 30){
+    throw new Error(
+      "CSVから30日以上の価格データを読み込めませんでした"
+    );
+  }
+
+  result.sort((a,b)=>a.date-b.date);
+
+  return result;
+}
+
+
+/* =========================
+   GitHub内CSV取得
+========================= */
+
+async function loadLocalCSV(){
+
+  const files = [
+
+    "./AUTO_INVEST_REALDATA_iPhone_fixed.csv",
+    "./AUTO_INVEST_REALDATA.csv",
+    "./realdata.csv",
+    "./data.csv"
+
+  ];
+
+  for(const file of files){
+
+    try{
+
+      const res = await fetch(
+        file + "?v=" + Date.now(),
+        {
+          cache:"no-store"
+        }
+      );
+
+      if(!res.ok) continue;
+
+      const text = await res.text();
+
+      const data = parseCSV(text);
+
+      if(data.length >= 30){
+
+        return {
+          data,
+          source:"GitHub内CSV: " + file
+        };
+
+      }
+
+    }catch(e){
+
+      console.log(
+        "CSV読み込み失敗",
+        file,
+        e
+      );
+
+    }
+  }
+
+  return null;
+}
+
+
+/* =========================
+   Yahoo Finance
+========================= */
+
+async function loadYahoo(ticker, years){
+
+  const end =
+    Math.floor(Date.now()/1000);
+
+  const start =
+    Math.floor(
+      new Date(
+        Date.now() -
+        Number(years) * 365.25 * 24 * 60 * 60 * 1000
+      ).getTime()/1000
+    );
+
+  const url =
+    "https://query1.finance.yahoo.com/v8/finance/chart/" +
+    encodeURIComponent(ticker) +
+    "?period1=" + start +
+    "&period2=" + end +
+    "&interval=1d" +
+    "&events=history";
+
+  const res = await fetch(
+    url,
+    {
+      cache:"no-store"
+    }
+  );
+
+  if(!res.ok){
+
+    throw new Error(
+      "Yahoo Finance HTTP " + res.status
+    );
 
   }
 
-  return sum/period;
+  const json = await res.json();
+
+  const result =
+    json &&
+    json.chart &&
+    json.chart.result &&
+    json.chart.result[0];
+
+  if(!result){
+    throw new Error("Yahoo Financeのデータがありません");
+  }
+
+  const timestamps = result.timestamp || [];
+
+  const quote =
+    result.indicators &&
+    result.indicators.quote &&
+    result.indicators.quote[0];
+
+  const closes =
+    quote &&
+    quote.close;
+
+  if(!timestamps.length || !closes){
+    throw new Error("価格データがありません");
+  }
+
+  const data=[];
+
+  for(let i=0;i<timestamps.length;i++){
+
+    const c = Number(closes[i]);
+
+    if(!Number.isFinite(c) || c<=0) continue;
+
+    data.push({
+      date:new Date(timestamps[i]*1000),
+      close:c
+    });
+
+  }
+
+  if(data.length < 30){
+    throw new Error("取得できたデータが少なすぎます");
+  }
+
+  return data;
+}
+
+
+/* =========================
+   データ取得
+========================= */
+
+async function loadData(ticker, years){
+
+  $("status").innerHTML =
+    "⏳ 株価データを取得しています…";
+
+  /* まずGitHub内CSV */
+
+  try{
+
+    const local =
+      await loadLocalCSV();
+
+    if(local){
+
+      $("status").innerHTML =
+        "✅ " +
+        local.source +
+        " を読み込みました。";
+
+      return local.data;
+    }
+
+  }catch(e){
+
+    console.log(
+      "ローカルCSV失敗",
+      e
+    );
+
+  }
+
+
+  /* 次にYahoo */
+
+  try{
+
+    const data =
+      await loadYahoo(ticker,years);
+
+    $("status").innerHTML =
+      "✅ Yahoo Financeから実データを取得しました。";
+
+    return data;
+
+  }catch(e){
+
+    console.error(e);
+
+    throw new Error(
+      "株価データを取得できませんでした。\n\n" +
+      "GitHub内CSVとYahoo Financeの両方で取得に失敗しています。\n\n" +
+      "原因： " + e.message
+    );
+
+  }
 
 }
 
@@ -622,67 +755,34 @@ function movingAverage(
    スコア
 ========================= */
 
-function calculateScore(
-  data,
-  index
-){
-
-  const price =
-    data[index].price;
+function calcScore(data,i){
 
   const ma20 =
-    movingAverage(
-      data,
-      index,
-      20
-    );
+    average(data,i,20);
 
   const ma50 =
-    movingAverage(
-      data,
-      index,
-      50
-    );
+    average(data,i,50);
 
-  const ma200 =
-    movingAverage(
-      data,
-      index,
-      200
-    );
+  if(ma20 === null || ma50 === null){
 
-
-  let trend=50;
-
-
-  if(ma20 && ma50){
-
-    if(price > ma20){
-      trend += 15;
-    }else{
-      trend -= 15;
-    }
-
-
-    if(ma20 > ma50){
-      trend += 20;
-    }else{
-      trend -= 20;
-    }
-
-
-    if(ma50 && ma200){
-
-      if(ma50 > ma200){
-        trend += 15;
-      }else{
-        trend -= 15;
-      }
-
-    }
+    return {
+      trend:50,
+      momentum:50,
+      total:50
+    };
 
   }
 
+  const price =
+    data[i].close;
+
+  let trend = 50;
+
+  if(price > ma20) trend += 20;
+  else trend -= 20;
+
+  if(ma20 > ma50) trend += 30;
+  else trend -= 30;
 
   trend =
     Math.max(
@@ -691,75 +791,39 @@ function calculateScore(
     );
 
 
-  let momentum=50;
+  let momentum = 50;
 
-
-  if(index >= 20){
+  if(i >= 20){
 
     const old =
-      data[index-20].price;
+      data[i-20].close;
 
     const ret =
-      (price/old-1)*100;
+      (price/old - 1) * 100;
 
     momentum =
-      50 + ret*4;
-
-    momentum =
-      Math.max(
-        0,
-        Math.min(
-          100,
-          momentum
-        )
-      );
+      50 + ret * 5;
 
   }
 
+  momentum =
+    Math.max(
+      0,
+      Math.min(100,momentum)
+    );
 
-  let total;
 
-
-  const strategy =
-    $("strategy").value;
-
-
-  if(strategy==="trend"){
-
-    total =
-      trend*0.7 +
-      momentum*0.3;
-
-  }
-  else if(strategy==="momentum"){
-
-    total =
-      trend*0.3 +
-      momentum*0.7;
-
-  }
-  else{
-
-    total =
-      trend*0.5 +
-      momentum*0.5;
-
-  }
-
+  const total =
+    Math.round(
+      trend * .6 +
+      momentum * .4
+    );
 
   return {
-
-    trend:
-      Math.round(trend),
-
-    momentum:
-      Math.round(momentum),
-
-    total:
-      Math.round(total)
-
+    trend,
+    momentum,
+    total
   };
-
 }
 
 
@@ -767,127 +831,336 @@ function calculateScore(
    バックテスト
 ========================= */
 
-function runBacktest(
-  data,
-  initial,
-  monthly
-){
+async function backtest(){
 
-  let cash =
-    initial;
+  try{
 
-  let shares=0;
+    $("status").innerHTML =
+      "⏳ バックテスト準備中…";
 
-  let tradeCount=0;
+    const ticker =
+      $("ticker").value;
 
-  let lastMonth=-1;
+    const years =
+      Number($("years").value);
 
-  const equity=[];
+    const initial =
+      Number($("initial").value) || 0;
 
+    const monthly =
+      Number($("monthly").value) || 0;
 
-  for(let i=0;i<data.length;i++){
-
-    const price =
-      data[i].price;
-
-
-    /*
-      約21営業日を1か月として積立
-    */
-
-    const month =
-      Math.floor(i/21);
+    const strategy =
+      $("strategy").value;
 
 
-    if(month!==lastMonth){
+    const data =
+      await loadData(ticker,years);
 
-      if(i>0){
 
-        cash += monthly;
+    /* 選択期間に合わせる */
 
-      }
+    const cutoff =
+      new Date(
+        Date.now() -
+        years * 365.25 *
+        24*60*60*1000
+      );
 
-      lastMonth=month;
+    const filtered =
+      data.filter(x =>
+        x.date >= cutoff
+      );
+
+    if(filtered.length < 30){
+
+      throw new Error(
+        "バックテストに必要なデータが不足しています"
+      );
 
     }
 
 
-    const score =
-      calculateScore(
-        data,
-        i
-      );
+    /* =====================
+       資産計算
+    ===================== */
+
+    let cash = initial;
+
+    let shares = 0;
+
+    let invested = initial;
+
+    let trades = 0;
+
+    let lastMonth = -1;
+
+    let equity = [];
+
+    let peak = initial;
+
+    let maxDD = 0;
 
 
-    /*
-      買い
-      65以上
-    */
+    for(let i=0;i<filtered.length;i++){
 
-    if(score.total>=65){
+      const row =
+        filtered[i];
 
-      if(cash>=price){
+      const date =
+        row.date;
 
-        const buy =
-          Math.floor(
-            cash/price
-          );
+      const price =
+        row.close;
 
-        if(buy>0){
 
-          shares += buy;
+      const month =
+        date.getFullYear()*12 +
+        date.getMonth();
 
-          cash -=
-            buy*price;
 
-          tradeCount++;
+      /* 毎月積立 */
+
+      if(month !== lastMonth){
+
+        lastMonth = month;
+
+        cash += monthly;
+
+        invested += monthly;
+
+
+        const s =
+          calcScore(filtered,i);
+
+
+        let buy = true;
+
+
+        if(strategy === "trend"){
+
+          buy =
+            s.total >= 55;
+
+        }
+
+
+        if(buy){
+
+          const amount =
+            Math.min(
+              cash,
+              monthly + (
+                i === 0 ? initial : 0
+              )
+            );
+
+          if(amount > 0){
+
+            shares +=
+              amount / price;
+
+            cash -= amount;
+
+            trades++;
+
+          }
 
         }
 
       }
 
-    }
+
+      const value =
+        cash + shares*price;
 
 
-    /*
-      売り
-      35以下
-    */
-
-    else if(
-      score.total<=35
-    ){
-
-      if(shares>0){
-
-        cash +=
-          shares*price;
-
-        shares=0;
-
-        tradeCount++;
-
+      if(value > peak){
+        peak = value;
       }
 
+
+      const dd =
+        (value/peak - 1)*100;
+
+
+      if(dd < maxDD){
+        maxDD = dd;
+      }
+
+
+      equity.push({
+        date,
+        value
+      });
+
     }
 
 
-    equity.push(
-      cash+
-      shares*price
-    );
+    const last =
+      filtered[filtered.length-1];
+
+    const finalAsset =
+      cash +
+      shares * last.close;
+
+
+    const totalDays =
+      (
+        last.date -
+        filtered[0].date
+      ) /
+      (1000*60*60*24);
+
+
+    const yearsActual =
+      totalDays/365.25;
+
+
+    const annual =
+      invested > 0 &&
+      yearsActual > 0
+      ?
+      (
+        Math.pow(
+          finalAsset/invested,
+          1/yearsActual
+        ) - 1
+      )*100
+      : 0;
+
+
+    /* 現在判断 */
+
+    const s =
+      calcScore(
+        filtered,
+        filtered.length-1
+      );
+
+
+    let decision = "様子見";
+
+    if(s.total >= 65){
+      decision = "買い";
+    }else if(s.total <= 35){
+      decision = "売り";
+    }
+
+
+    /* =====================
+       表示
+    ===================== */
+
+    $("final").textContent =
+      yen(finalAsset);
+
+    $("finalSub").textContent =
+      "累計投入額 " +
+      yen(invested);
+
+
+    $("annual").textContent =
+      pct(annual);
+
+
+    $("annual").className =
+      annual >= 0 ? "good" : "bad";
+
+
+    $("drawdown").textContent =
+      pct(maxDD);
+
+
+    $("drawdown").className =
+      "bad";
+
+
+    $("trades").textContent =
+      trades + "回";
+
+
+    $("decision").textContent =
+      decision;
+
+
+    $("decision").className =
+      decision === "買い"
+      ? "good"
+      : decision === "売り"
+      ? "bad"
+      : "";
+
+
+    $("trend").textContent =
+      Math.round(s.trend) + "/100";
+
+
+    $("momentum").textContent =
+      Math.round(s.momentum) + "/100";
+
+
+    $("score").textContent =
+      Math.round(s.total) + "/100";
+
+
+    $("price").textContent =
+      last.close.toLocaleString(
+        "ja-JP",
+        {
+          maximumFractionDigits:2
+        }
+      );
+
+
+    $("chartMessage").textContent =
+      "データ期間：" +
+      filtered[0].date.toLocaleDateString("ja-JP") +
+      " ～ " +
+      last.date.toLocaleDateString("ja-JP");
+
+
+    drawChart(filtered,equity);
+
+
+    $("status").innerHTML =
+      "✅ バックテスト完了<br>" +
+      "データ件数：" +
+      filtered.length.toLocaleString() +
+      "日<br>" +
+      "最終データ：" +
+      last.date.toLocaleDateString("ja-JP");
+
+
+    tab("result");
+
+  }catch(e){
+
+    console.error(e);
+
+    $("final").textContent =
+      "エラー";
+
+    $("finalSub").textContent =
+      e.message;
+
+    $("status").innerHTML =
+      "⚠️ " +
+      e.message.replace(/\n/g,"<br>");
+
+    $("chartMessage").textContent =
+      "データ取得に失敗しました。";
+
+    $("annual").textContent = "---";
+    $("drawdown").textContent = "---";
+    $("trades").textContent = "---";
+    $("decision").textContent = "---";
+    $("trend").textContent = "---";
+    $("momentum").textContent = "---";
+    $("score").textContent = "---";
+    $("price").textContent = "---";
 
   }
-
-
-  return {
-
-    equity,
-    final:
-      equity[equity.length-1],
-    tradeCount
-
-  };
 
 }
 
@@ -896,34 +1169,27 @@ function runBacktest(
    グラフ
 ========================= */
 
-function drawChart(data){
+function drawChart(data,equity){
 
   const canvas =
     $("chart");
 
-  const ctx =
-    canvas.getContext("2d");
-
-
   const rect =
     canvas.getBoundingClientRect();
 
-
-  const ratio =
+  const dpr =
     window.devicePixelRatio || 1;
 
-
   canvas.width =
-    rect.width*ratio;
+    rect.width*dpr;
 
   canvas.height =
-    rect.height*ratio;
+    rect.height*dpr;
 
+  const ctx =
+    canvas.getContext("2d");
 
-  ctx.scale(
-    ratio,
-    ratio
-  );
+  ctx.scale(dpr,dpr);
 
 
   const w =
@@ -934,451 +1200,132 @@ function drawChart(data){
 
 
   ctx.clearRect(
-    0,
-    0,
-    w,
-    h
+    0,0,w,h
   );
 
 
   const prices =
-    data.map(
-      x=>x.price
-    );
+    data.map(x=>x.close);
 
 
-  const min =
+  let min =
     Math.min(...prices);
 
-  const max =
+  let max =
     Math.max(...prices);
 
 
-  const range =
-    max-min || 1;
+  if(max === min){
+    max += 1;
+    min -= 1;
+  }
 
 
-  /*
-    グリッド
-  */
+  const pad =
+    25;
+
+
+  /* グリッド */
 
   ctx.strokeStyle =
-    "#e3e8ec";
+    "#e5eaee";
 
-  ctx.lineWidth=1;
+  ctx.lineWidth = 1;
 
 
   for(let i=1;i<5;i++){
 
     const y =
-      h*i/5;
+      pad +
+      (h-pad*2) *
+      i/5;
 
     ctx.beginPath();
 
-    ctx.moveTo(0,y);
+    ctx.moveTo(
+      0,y
+    );
 
-    ctx.lineTo(w,y);
+    ctx.lineTo(
+      w,y
+    );
 
     ctx.stroke();
 
   }
 
 
-  /*
-    価格ライン
-  */
+  /* 価格ライン */
 
   ctx.strokeStyle =
-    "#1683d8";
+    "#1989df";
 
-  ctx.lineWidth=3;
+  ctx.lineWidth = 3;
 
   ctx.beginPath();
 
 
-  const step =
-    w/
-    (data.length-1);
-
-
-  for(
-    let i=0;
-    i<data.length;
-    i++
-  ){
+  prices.forEach((p,i)=>{
 
     const x =
-      i*step;
-
+      i/(prices.length-1)*w;
 
     const y =
-      h-
-      (
-        (data[i].price-min)
-        /range
-      )*
-      (h-20)-10;
+      h-pad -
+      (p-min)/(max-min)*
+      (h-pad*2);
 
 
     if(i===0){
-
-      ctx.moveTo(
-        x,
-        y
-      );
-
+      ctx.moveTo(x,y);
     }else{
-
-      ctx.lineTo(
-        x,
-        y
-      );
-
+      ctx.lineTo(x,y);
     }
 
-  }
+  });
 
 
   ctx.stroke();
 
-}
 
+  /* 現在価格 */
 
-/* =========================
-   メイン
-========================= */
+  const last =
+    prices[prices.length-1];
 
-async function backtest(){
 
-  try{
+  const lx =
+    w;
 
-    $("message").textContent =
-      "実データを取得しています…";
+  const ly =
+    h-pad -
+    (last-min)/(max-min)*
+    (h-pad*2);
 
 
-    $("finalAsset").textContent =
-      "読み込み中…";
+  ctx.fillStyle =
+    "#1989df";
 
+  ctx.beginPath();
 
-    const ticker =
-      $("ticker").value;
+  ctx.arc(
+    lx,
+    ly,
+    5,
+    0,
+    Math.PI*2
+  );
 
-
-    const years =
-      Number(
-        $("period").value
-      );
-
-
-    const initial =
-      Number(
-        $("initial").value
-      );
-
-
-    const monthly =
-      Number(
-        $("monthly").value
-      );
-
-
-    if(
-      !Number.isFinite(initial) ||
-      initial<=0
-    ){
-
-      throw new Error(
-        "初期資金を正しく入力してください"
-      );
-
-    }
-
-
-    if(
-      !Number.isFinite(monthly) ||
-      monthly<0
-    ){
-
-      throw new Error(
-        "毎月積立額を正しく入力してください"
-      );
-
-    }
-
-
-    /*
-      実データ取得
-    */
-
-    const data =
-      await getYahooData(
-        ticker,
-        years
-      );
-
-
-    $("chartStatus").textContent =
-      "実データ取得成功：" +
-      ticker +
-      " / " +
-      data.length +
-      "営業日";
-
-
-    /*
-      バックテスト
-    */
-
-    const result =
-      runBacktest(
-        data,
-        initial,
-        monthly
-      );
-
-
-    const final =
-      result.final;
-
-
-    /*
-      投資元本
-    */
-
-    const months =
-      Math.floor(
-        data.length/21
-      );
-
-
-    const invested =
-      initial+
-      monthly*months;
-
-
-    const profit =
-      final-invested;
-
-
-    /*
-      年率
-    */
-
-    const annualReturn =
-      (
-        Math.pow(
-          final/invested,
-          1/years
-        )-1
-      )*100;
-
-
-    /*
-      最大下落
-    */
-
-    let peak =
-      result.equity[0];
-
-    let maxDD=0;
-
-
-    for(
-      const value
-      of result.equity
-    ){
-
-      if(value>peak){
-
-        peak=value;
-
-      }
-
-
-      const dd =
-        (
-          value/peak-1
-        )*100;
-
-
-      if(dd<maxDD){
-
-        maxDD=dd;
-
-      }
-
-    }
-
-
-    /*
-      最新スコア
-    */
-
-    const latest =
-      calculateScore(
-        data,
-        data.length-1
-      );
-
-
-    /*
-      表示
-    */
-
-    $("finalAsset").textContent =
-      yen(final);
-
-
-    $("profit").textContent =
-      "損益 " +
-      yen(profit) +
-      " / 投資元本 " +
-      yen(invested);
-
-
-    $("annualReturn").textContent =
-      percent(annualReturn);
-
-
-    $("maxDrawdown").textContent =
-      percent(maxDD);
-
-
-    $("tradeCount").textContent =
-      result.tradeCount+
-      "回";
-
-
-    $("trendScore").textContent =
-      latest.trend+
-      "/100";
-
-
-    $("momentumScore").textContent =
-      latest.momentum+
-      "/100";
-
-
-    $("totalScore").textContent =
-      latest.total+
-      "/100";
-
-
-    const decision =
-      $("decision");
-
-
-    if(latest.total>=65){
-
-      decision.textContent =
-        "買い";
-
-      decision.className =
-        "buy";
-
-    }
-    else if(
-      latest.total<=35
-    ){
-
-      decision.textContent =
-        "売り";
-
-      decision.className =
-        "sell";
-
-    }
-    else{
-
-      decision.textContent =
-        "様子見";
-
-      decision.className =
-        "hold";
-
-    }
-
-
-    /*
-      グラフ
-    */
-
-    drawChart(data);
-
-
-    $("message").textContent =
-      "✅ 実データでバックテスト完了";
-
-
-    showTab("result");
-
-
-  }catch(error){
-
-    console.error(error);
-
-
-    $("finalAsset").textContent =
-      "データ取得エラー";
-
-
-    $("profit").textContent =
-      error.message;
-
-
-    $("chartStatus").textContent =
-      "実データを取得できませんでした。" +
-      " 設定画面から再実行してください。";
-
-
-    $("message").textContent =
-      "⚠️ " +
-      error.message;
-
-  }
+  ctx.fill();
 
 }
 
 
 /* =========================
-   初期起動
+   初期表示
 ========================= */
 
-window.addEventListener(
-  "load",
-  function(){
-
-    backtest();
-
-  }
-);
-
-
-/*
-  画面回転・サイズ変更
-*/
-
-window.addEventListener(
-  "resize",
-  function(){
-
-    const canvas =
-      $("chart");
-
-    if(
-      canvas &&
-      !$("result").classList.contains("hidden")
-    ){
-
-      /*
-        現在のデータがある場合のみ
-        再描画
-      */
-
-    }
-
-  }
-);
+tab("settings");
 
 </script>
 
