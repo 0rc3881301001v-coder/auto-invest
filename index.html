@@ -1,72 +1,28 @@
-<!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>AUTO INVEST</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#f3f6f8;color:#17212b;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-header{background:#16212b;color:white;padding:42px 28px 34px}header h1{margin:0;font-size:38px}header p{margin:10px 0 0;color:#cbd5dd;font-size:22px}
-main{max-width:900px;margin:auto;padding:28px 20px 110px}.card{background:white;border:1px solid #d5dee5;border-radius:28px;padding:28px;margin-bottom:22px;box-shadow:0 8px 24px rgba(30,50,70,.05)}
-h2{margin:0 0 22px;font-size:28px}.small{color:#71818d;font-size:15px;line-height:1.7}
-label{display:block;color:#687987;font-size:19px;margin:17px 0 8px}
-select,input{width:100%;padding:17px 18px;border:2px solid #d3dde5;border-radius:18px;background:white;font-size:19px}
-button{border:0;border-radius:18px;padding:18px 20px;font-size:20px;font-weight:800;cursor:pointer}.primary{width:100%;background:#1987d8;color:white;margin-top:22px}.secondary{width:100%;background:#eef6fc;color:#12639a;margin-top:14px}
-.status{margin-top:16px;padding:18px;border-radius:18px;background:#eef7ff;color:#245879;font-size:17px;line-height:1.6}.ok{background:#eef9f1;color:#26723a}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.metric{background:#f7f9fa;border-radius:24px;padding:20px}.metric span{display:block;color:#71818d;font-size:18px;margin-bottom:10px}.metric strong{font-size:30px}.big{font-size:44px!important}
-canvas{width:100%;height:310px;display:block;background:#fbfcfd;border-radius:20px}.hidden{display:none}
-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);border-top:1px solid #d9e0e5;display:flex;justify-content:center;gap:90px;padding:15px 10px calc(15px + env(safe-area-inset-bottom));z-index:10}nav button{background:none;color:#1684d3;padding:8px 18px}
-@media(max-width:600px){header{padding:38px 24px 30px}header h1{font-size:34px}main{padding:20px 14px 120px}.card{padding:22px;border-radius:24px}.metric{padding:16px}.metric strong{font-size:25px}canvas{height:250px}nav{gap:35px}}
-</style>
-</head>
-<body>
-<header><h1>AUTO INVEST</h1><p>実データ・バックテスト版</p></header>
-<main>
-<section id="result">
-<div class="card"><div class="small">バックテスト最終資産</div><div id="final" class="big" style="margin-top:8px">---</div><div id="summary" class="small">設定画面からバックテストを実行してください。</div></div>
-<div class="grid">
-<div class="metric"><span>年率</span><strong id="annual">---</strong></div>
-<div class="metric"><span>最大下落</span><strong id="drawdown">---</strong></div>
-<div class="metric"><span>売買回数</span><strong id="trades">---</strong></div>
-<div class="metric"><span>現在判断</span><strong id="decision">---</strong></div>
-</div>
-<div class="card" style="margin-top:22px"><h2>📈 実際の価格推移</h2><canvas id="chart"></canvas><div id="dataInfo" class="small" style="margin-top:12px">まだデータがありません。</div></div>
-<div class="card"><h2>🤖 投資判断スコア</h2><div class="metric"><span>トレンド</span><strong id="score">---</strong></div><p class="small">20日移動平均・50日移動平均・直近価格から機械的に算出します。投資助言ではありません。</p></div>
-<div class="card"><h2>📋 バックテスト概要</h2><div id="detail" class="small">---</div></div>
-</section>
-<section id="settings" class="hidden">
-<div class="card"><h2>⚙️ 設定</h2>
-<label>銘柄</label><select id="ticker">
-<option value="SP500">S&P500</option><option value="NASDAQ">NASDAQ</option><option value="AAPL">Apple (AAPL)</option><option value="MSFT">Microsoft (MSFT)</option><option value="NVDA">NVIDIA (NVDA)</option><option value="7203.T">トヨタ (7203)</option><option value="9984.T">ソフトバンクG (9984)</option></select>
-<label>期間</label><select id="years"><option value="1">1年</option><option value="3" selected>3年</option><option value="5">5年</option><option value="10">10年</option></select>
-<label>初期資金</label><input id="initial" type="number" inputmode="numeric" value="100000" min="0">
-<label>毎月積立</label><input id="monthly" type="number" inputmode="numeric" value="50000" min="0">
-<label>戦略</label><select id="strategy"><option value="trend" selected>トレンド重視</option><option value="balanced">バランス</option><option value="dip">押し目重視</option></select>
-<button class="primary" onclick="runBacktest()">🚀 バックテスト実行</button>
-<button class="secondary" onclick="loadMarketData()">🔄 株価データを再読み込み</button>
-<div id="status" class="status">CSV・ZIPファイルは使用しません。まずバックテストを実行してください。</div>
-</div>
-<div class="card"><h2>ℹ️ データについて</h2><p class="small">この版はCSVやZIPに依存しません。まずYahoo FinanceのChart APIから株価を取得します。通信制限・CORS・API障害などで取得できない場合でも、内蔵の再現用価格データへ自動切替するため、バックテストはLoad failedで停止しません。その場合は画面に「内蔵シミュレーションデータ」と表示します。</p></div>
-</section>
-</main>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="apple-mobile-web-app-capable" content="yes"><title>AUTO INVEST</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6f8;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;color:#17202a}.app{max-width:520px;margin:auto;background:white;min-height:100vh}header{background:#17202a;color:white;padding:30px 18px 16px}.brand{font-size:22px;font-weight:900}.sub{font-size:12px;color:#bdc6ce}main{padding:15px 15px 90px}.card{border:1px solid #e3e8ec;border-radius:18px;padding:16px;margin-bottom:13px}.money{font-size:30px;font-weight:900}.gain{color:#16824f;font-weight:800}.loss{color:#b3261e;font-weight:800}.muted{color:#7b858e;font-size:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric{background:#f7f9fa;border-radius:13px;padding:12px}.metric b{display:block;font-size:18px;margin-top:3px}.input,.select{width:100%;padding:12px;border:1px solid #d9dfe5;border-radius:12px;margin:6px 0 12px;font-size:16px;background:#fff}.btn{width:100%;border:0;border-radius:12px;padding:13px;background:#17202a;color:#fff;font-weight:850}.row{display:flex;justify-content:space-between;margin:9px 0}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#eee;font-weight:800}.buy{background:#e8f7ef;color:#16824f}.sell{background:#fff0ef;color:#b3261e}canvas{width:100%;height:210px;background:#fafbfc;border-radius:14px}.status{padding:10px;background:#f7f9fa;border-radius:12px;font-size:12px;line-height:1.5}.notice{font-size:11px;color:#707a83;line-height:1.6}.hidden{display:none}nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:flex;justify-content:space-around;background:#fff;border-top:1px solid #ddd;padding:10px}nav button{border:0;background:none;font-weight:800}
+</style></head><body><div class="app"><header><div class="brand">AUTO INVEST</div><div class="sub">実データ・バックテスト版</div></header><main>
+<section id="result"><div class="card"><div class="muted">バックテスト最終資産</div><div class="money" id="final">—</div><div id="profit">—</div><div class="muted" id="period"></div></div>
+<div class="grid"><div class="metric"><span class="muted">年率</span><b id="cagr">—</b></div><div class="metric"><span class="muted">最大下落</span><b id="mdd">—</b></div><div class="metric"><span class="muted">売買回数</span><b id="trades">—</b></div><div class="metric"><span class="muted">現在判断</span><b id="signal">—</b></div></div>
+<div class="card"><b>📈 実際の価格推移</b><canvas id="chart" width="1000" height="420"></canvas></div>
+<div class="card"><b>🤖 投資判断スコア</b><div class="row"><span>トレンド</span><b id="trend">—</b></div><div class="row"><span>モメンタム</span><b id="momentum">—</b></div><div class="row"><span>総合</span><b id="score">—</b></div><p class="notice">20・50・200期間移動平均と直近リターンによる検証用ルールです。利益を保証するAIではありません。</p></div>
+<div class="card"><div class="status" id="status">設定から実データでバックテストしてください。</div></div></section>
+<section id="settings" class="hidden"><div class="card"><b>⚙️ 条件設定</b>
+<label class="muted">銘柄</label><select id="ticker" class="select"><option value="VOO">S&P500 ETF (VOO)</option><option value="SPY">S&P500 ETF (SPY)</option><option value="QQQ">NASDAQ100 ETF (QQQ)</option><option value="^N225">日経平均</option><option value="AAPL">Apple</option><option value="MSFT">Microsoft</option><option value="NVDA">NVIDIA</option></select>
+<label class="muted">期間</label><select id="range" class="select"><option value="5y">5年</option><option value="10y" selected>10年</option><option value="max">最大</option></select>
+<label class="muted">初期資金</label><input id="initial" class="input" type="number" value="1000000">
+<label class="muted">毎月積立</label><input id="monthly" class="input" type="number" value="50000">
+<label class="muted">戦略</label><select id="strategy" class="select"><option value="trend">トレンド追随</option><option value="dca">積立のみ</option><option value="balanced">バランス</option></select>
+<button class="btn" onclick="backtest()">実データでバックテスト</button></div>
+<div class="card"><p class="notice">この版はブラウザからYahoo Financeのチャートデータを取得します。ネットワークや提供側仕様で取得できない場合があります。売買注文は行いません。</p></div></section></main>
 <nav><button onclick="tab('result')">📈 結果</button><button onclick="tab('settings')">⚙️ 設定</button></nav>
-
 <script>
-const $=id=>document.getElementById(id);let market=[],source="";
-function tab(x){$("result").classList.toggle("hidden",x!=="result");$("settings").classList.toggle("hidden",x!=="settings");window.scrollTo({top:0,behavior:"smooth"})}
-function yen(n){return "¥"+Math.round(n).toLocaleString("ja-JP")}
-function avg(i,n){if(i+1<n)return null;let s=0;for(let j=i-n+1;j<=i;j++)s+=market[j].close;return s/n}
-function seedFor(t){let s=0;for(let i=0;i<t.length;i++)s=(s+t.charCodeAt(i)*31)%100000;return s+1234}
-function rng(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
-function fallback(t,y){const r=rng(seedFor(t)),count=y*252;let p=t==="SP500"?450:t==="NASDAQ"?15000:t==="AAPL"?190:t==="MSFT"?420:t==="NVDA"?120:t==="7203.T"?3000:10000,a=[],d=new Date();d.setDate(d.getDate()-count);for(let i=0;i<count;i++){d.setDate(d.getDate()+1);if(d.getDay()===0||d.getDay()===6){i--;continue}p=Math.max(p*.45,p*(1+(t==="NVDA"?0.00065:0.0003)+Math.sin(i/80)*.003+Math.sin(i/19)*.0015+(r()-.5)*.022));a.push({date:new Date(d),close:p})}return a}
-function parseYahoo(j){const r=j?.chart?.result?.[0],c=r?.indicators?.quote?.[0]?.close;if(!r?.timestamp||!c)throw Error("empty");let a=[];for(let i=0;i<r.timestamp.length;i++)if(Number.isFinite(c[i]))a.push({date:new Date(r.timestamp[i]*1000),close:+c[i]});if(a.length<30)throw Error("short");return a}
-async function yahoo(t,y){const u="https://query1.finance.yahoo.com/v8/finance/chart/"+encodeURIComponent(t)+"?period1="+(Math.floor(Date.now()/1000)-y*366*86400)+"&period2="+Math.floor(Date.now()/1000)+"&interval=1d&events=history",c=new AbortController(),tm=setTimeout(()=>c.abort(),7000);try{let r=await fetch(u,{signal:c.signal,cache:"no-store"});if(!r.ok)throw Error("HTTP "+r.status);return parseYahoo(await r.json())}finally{clearTimeout(tm)}}
-async function loadMarketData(){const t=$("ticker").value,y=+$("years").value;$("status").className="status";$("status").textContent="⏳ 株価データを取得しています…";try{market=await yahoo(t,y);source="Yahoo Finance Chart API（CSV不使用）";$("status").className="status ok";$("status").textContent="✅ 株価データを取得しました。"}catch(e){market=fallback(t,y);source="内蔵シミュレーションデータ（外部API取得失敗時の自動フォールバック）";$("status").textContent="⚠️ 外部株価データを取得できないため、内蔵データで続行しました。"}$("dataInfo").textContent=source+" / "+market.length.toLocaleString()+"営業日";return source.startsWith("Yahoo")}
-function score(i){if(i<50)return 50;let p=market[i].close,m20=avg(i,20),m50=avg(i,50),s=50;s+=p>m20?20:-20;s+=p>m50?20:-20;s+=m20>m50?10:-10;return Math.max(0,Math.min(100,s))}
-function simulate(){let initial=Math.max(0,+$("initial").value||0),monthly=Math.max(0,+$("monthly").value||0),st=$("strategy").value,cash=initial,shares=0,buys=0,sells=0,last=-1,eq=[];for(let i=0;i<market.length;i++){let p=market[i].close,dt=market[i].date,m=dt.getFullYear()*12+dt.getMonth();if(m!==last){cash+=monthly;last=m;let s=score(i),invest=0;if(st==="trend")invest=s>=70?cash*.8:s>=55?cash*.4:0;else if(st==="balanced")invest=s>=70?cash*.6:s>=50?cash*.3:0;else invest=s>=80?cash*.45:s<=30?cash*.7:cash*.2;if(invest){shares+=invest/p;cash-=invest;buys++}}if(score(i)<25&&shares){cash+=shares*p*.35;shares*=.65;sells++}eq.push(cash+shares*p)}let final=eq.at(-1)||initial,contributed=initial+monthly*Math.max(1,last-(market[0].date.getFullYear()*12+market[0].date.getMonth())+1),yrs=Math.max(.1,(market.at(-1).date-market[0].date)/86400000/365.25),annual=((final/contributed)**(1/yrs)-1)*100,peak=eq[0],dd=0;for(const v of eq){peak=Math.max(peak,v);dd=Math.min(dd,(v/peak-1)*100)}return{final,contributed,annual,dd,buys,sells,eq}}
-function draw(a){let c=$("chart"),x=c.getContext("2d"),d=devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;c.width=w*d;c.height=h*d;x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,w,h);if(!a.length)return;let mn=Math.min(...a),mx=Math.max(...a),rg=Math.max(1,mx-mn),p=25;x.beginPath();a.forEach((v,i)=>{let xx=p+(w-2*p)*i/(a.length-1),yy=h-p-(h-2*p)*(v-mn)/rg;i?x.lineTo(xx,yy):x.moveTo(xx,yy)});x.lineWidth=3;x.strokeStyle="#1684d3";x.stroke();x.fillStyle="#71818d";x.font="12px sans-serif";x.fillText(yen(mx),p,16);x.fillText(yen(mn),p,h-5)}
-async function runBacktest(){let ok=await loadMarketData(),r=simulate(),s=score(market.length-1);$("final").textContent=yen(r.final);$("annual").textContent=(r.annual>=0?"+":"")+r.annual.toFixed(2)+"%";$("drawdown").textContent=r.dd.toFixed(2)+"%";$("trades").textContent=(r.buys+r.sells)+"回";$("decision").textContent=s>=60?"買い":s<=35?"売り":"様子見";$("score").textContent=s+"/100";$("summary").textContent=(ok?"外部株価データ":"内蔵データ")+"でバックテスト完了。";$("detail").innerHTML="銘柄："+$("ticker").selectedOptions[0].text+"<br>期間："+$("years").value+"年<br>初期資金："+yen(+$("initial").value||0)+"<br>毎月積立："+yen(+$("monthly").value||0)+"<br>投入元本：約"+yen(r.contributed)+"<br>買い："+r.buys+"回 / 売り："+r.sells+"回<br>データ："+source;draw(r.eq);tab("result")}
-window.addEventListener("resize",()=>{if(market.length)draw(simulate().eq)});tab("result");
-</script>
-</body>
-</html>
+const $=x=>document.getElementById(x);let dates=[];
+function tab(x){$('result').classList.toggle('hidden',x!='result');$('settings').classList.toggle('hidden',x!='settings')}
+function yen(n){return '¥'+Math.round(n).toLocaleString('ja-JP')}
+function avg(a,i,n){if(i+1<n)return null;let s=0;for(let j=i-n+1;j<=i;j++)s+=a[j];return s/n}
+function score(a,i){let m20=avg(a,i,20),m50=avg(a,i,50),m200=avg(a,i,200),mom=i>=6?a[i]/a[i-6]-1:0,s=0;if(m20&&a[i]>m20)s+=25;if(m50&&a[i]>m50)s+=25;if(m200&&a[i]>m200)s+=30;if(mom>0)s+=20;return{s,m200,mom}}
+async function data(t,r){let u='https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(t)+'?range='+r+'&interval=1mo&events=history&includeAdjustedClose=true';let q=await fetch(u);if(!q.ok)throw Error('HTTP '+q.status);let j=await q.json(),z=j.chart.result?.[0];if(!z)throw Error('データなし');dates=[];let a=z.indicators.adjclose?.[0]?.adjclose||z.indicators.quote?.[0]?.close;return a.map((v,i)=>{if(v!=null){dates.push(z.timestamp[i]);return +v}}).filter(v=>v!=null)}
+async function backtest(){tab('result');$('status').textContent='実データを取得中…';try{let t=$('ticker').value,a=await data(t,$('range').value),initial=+$('initial').value||0,monthly=+$('monthly').value||0,strategy=$('strategy').value;if(a.length<12)throw Error('データ不足');let cash=initial,units=0,value=initial,peak=initial,mdd=0,trades=0,invested=initial;for(let i=0;i<a.length;i++){if(i>0){cash+=monthly;invested+=monthly}let s=score(a,i),buy=strategy=='dca'||(strategy=='balanced'?s.s>=55:s.s>=60);if(buy&&cash>0){units+=cash/a[i];cash=0;trades++}else if(strategy!='dca'&&units>0&&s.s<35){cash+=units*a[i];units=0;trades++}value=cash+units*a[i];peak=Math.max(peak,value);mdd=Math.min(mdd,value/peak-1)}let years=Math.max((a.length-1)/12,1),cagr=Math.pow(value/Math.max(initial,1),1/years)-1,s=score(a,a.length-1);$('final').textContent=yen(value);$('profit').textContent=(value-invested>=0?'+':'')+yen(value-invested);$('profit').className=value>=invested?'gain':'loss';$('period').textContent=t+' / 月次データ '+a.length+'点 / 元本 '+yen(invested);$('cagr').textContent=(cagr*100).toFixed(2)+'%';$('mdd').textContent=(mdd*100).toFixed(2)+'%';$('trades').textContent=trades;let sig=s.s>=60?'買い':s.s<35?'売り':'保有';$('signal').innerHTML='<span class="pill '+(sig=='買い'?'buy':sig=='売り'?'sell':'')+'">'+sig+'</span>';$('trend').textContent=s.m200?(a.at(-1)>s.m200?'上向き':'下向き'):'判定待ち';$('momentum').textContent=(s.mom*100).toFixed(1)+'%';$('score').textContent=s.s+'/100';$('status').textContent='実データ取得成功。端末上でバックテストしました。';draw(a)}catch(e){$('status').textContent='取得失敗：'+e.message+'。Safariで再読み込みするか別銘柄を試してください。';}}
+function draw(a){let c=$('chart'),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);let mi=Math.min(...a),ma=Math.max(...a);x.beginPath();a.forEach((v,i)=>{let px=i/(a.length-1)*c.width,py=c.height-25-(v-mi)/(ma-mi||1)*(c.height-50);i?x.lineTo(px,py):x.moveTo(px,py)});x.strokeStyle='#16824f';x.lineWidth=5;x.stroke()}
+tab('settings');
+</script></div></body></html>
