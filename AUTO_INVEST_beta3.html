@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AUTO INVEST β3</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:0;background:#f4f7f9;color:#17212b}
+header{background:#17212b;color:white;padding:32px 18px}main{max-width:850px;margin:auto;padding:16px}.card{background:white;border-radius:20px;padding:18px;margin:12px 0;border:1px solid #dce4e9}
+h1{margin:0;font-size:30px}h2{margin-top:0}.big{font-size:38px;font-weight:800}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.box{background:#f7f9fa;padding:15px;border-radius:15px}.box b{display:block;font-size:23px;margin-top:5px}
+select,input,button{width:100%;padding:14px;border-radius:13px;border:1px solid #ccd8df;font-size:17px;margin-top:7px}button{background:#1688dc;color:#fff;border:0;font-weight:800}.secondary{background:#e8f3fb;color:#12649d}
+.status{padding:12px;border-radius:12px;background:#f5f7f8;margin-top:10px}.ok{background:#eaf8f0;color:#087447}.err{background:#fff0f0;color:#b3261e}
+canvas{width:100%;height:250px;background:#fafcfd;border-radius:12px}.row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #e7ecef}
+</style></head>
+<body><header><h1>AUTO INVEST β3</h1><div>実株価データ連携版</div></header><main>
+<div class="card"><h2>📡 株価取得</h2><label>銘柄</label><select id="symbol"><option value="7203.T">トヨタ</option><option value="6758.T">ソニーG</option><option value="8306.T">三菱UFJ</option><option value="^N225">日経平均</option><option value="^GSPC">S&P500</option><option value="^NDX">NASDAQ100</option></select>
+<label>Worker URL</label><input id="worker" placeholder="https://あなたのWorker.workers.dev">
+<button onclick="load()">実際の株価を取得</button><button class="secondary" onclick="demo()">デモデータで確認</button>
+<div id="status" class="status">Worker URLを入力して「実際の株価を取得」を押してください。</div></div>
+<div class="card"><div class="small">現在価格</div><div id="price" class="big">---</div><div id="change">---</div></div>
+<div class="grid"><div class="box">投資判断<b id="signal">---</b></div><div class="box">スコア<b id="score">---</b></div><div class="box">20日平均<b id="ma20">---</b></div><div class="box">60日平均<b id="ma60">---</b></div></div>
+<div class="card"><h2>📈 株価グラフ</h2><canvas id="chart"></canvas></div>
+<div class="card"><h2>🤖 分析</h2><div id="analysis">実データ取得後に表示します。</div></div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+function status(t,c=''){ $('status').textContent=t;$('status').className='status '+c }
+function avg(a,n){let x=a.slice(-n);return x.length?x.reduce((s,v)=>s+v,0)/x.length:null}
+function draw(a){let c=$('chart'),r=c.getBoundingClientRect(),d=devicePixelRatio||1,w=r.width,h=r.height;c.width=w*d;c.height=h*d;let x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);let mi=Math.min(...a),ma=Math.max(...a);if(ma==mi)ma++;x.beginPath();a.forEach((v,i)=>{let X=8+(w-16)*i/(a.length-1),Y=10+(h-20)*(1-(v-mi)/(ma-mi));i?x.lineTo(X,Y):x.moveTo(X,Y)});x.strokeStyle='#1688dc';x.lineWidth=3;x.stroke()}
+function show(a,real){let last=a.at(-1),prev=a.at(-2),m20=avg(a,20),m60=avg(a,60);let score=50;if(last>m20)score+=25;if(last>m60)score+=25;let sig=score>=75?'BUY':score>=50?'HOLD':'WAIT';$('price').textContent=last.toLocaleString('ja-JP',{maximumFractionDigits:2});$('change').textContent=prev?'前日比 '+((last/prev-1)*100).toFixed(2)+'%':'';$('signal').textContent=sig;$('score').textContent=score+'/100';$('ma20').textContent=m20?.toFixed(2)??'---';$('ma60').textContent=m60?.toFixed(2)??'---';$('analysis').innerHTML='<div class="row"><span>データ</span><b>'+(real?'実際の株価':'デモ')+'</b></div><div class="row"><span>20日平均より</span><b>'+((last/m20-1)*100).toFixed(2)+'%</b></div><div class="row"><span>60日平均より</span><b>'+((last/m60-1)*100).toFixed(2)+'%</b></div>';draw(a)}
+async function load(){let base=$('worker').value.trim().replace(/\/$/,'');if(!base){status('Worker URLを入力してください。','err');return}status('実株価を取得中…');try{let u=base+'/quote?symbol='+encodeURIComponent($('symbol').value)+'&range=1y&interval=1d';let r=await fetch(u);let j=await r.json();if(!j.ok)throw Error(j.error||'取得失敗');show(j.prices.map(x=>x.close).filter(Number.isFinite),true);status('実際の株価データを取得しました。','ok')}catch(e){status('取得失敗：'+e.message,'err')}}
+function demo(){let a=[],p=100;for(let i=0;i<260;i++){p*=1+(Math.sin(i*.1)*.01+.0003);a.push(p)}show(a,false);status('デモデータを表示しています。')}
+</script></body></html>
